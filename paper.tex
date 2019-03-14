@@ -6,7 +6,8 @@
 \newcommand{\norm}[1]{\left\Vert #1\right\Vert}
 \usepackage{url}
 
-
+\usepackage{subcaption}
+\graphicspath{{images/}}
 % *****************
 %  Requirements:
 % *****************
@@ -79,7 +80,10 @@ $^4$Univ. Paris-Est, LaSTIG STRUDEL, IGN, ENSG\\\medskip
 
 \begin{abstract}
 % Abstract length should not exceed 250 words
-  At large scales, typologies of urban form and corresponding generating processes remain an open question with important implications regarding urban planning policies and sustainability. We propose in this paper to generate urban configurations at large scales, typically of districts, with morphogenesis models, and compare these to real configurations according to morphological indicators. Real values are computed on a large sample of districts taken in European urban areas. We calibrate each model and show their complementarity to approach the variety of real urban configurations, paving the way to multi-model approaches of urban morphogenesis.
+  At large scales, typologies of urban form and corresponding generating processes remain an open question with important implications regarding urban planning policies and sustainability.
+  We propose in this paper to generate urban configurations at large scales, typically of districts, with morphogenesis models, and compare these to real configurations according to morphological indicators.
+  Real values are computed on a large sample of districts taken in European urban areas.
+  We calibrate each model and show their complementarity to approach the variety of real urban configurations, paving the way to multi-model approaches of urban morphogenesis.
 \end{abstract}
 
 
@@ -87,10 +91,14 @@ $^4$Univ. Paris-Est, LaSTIG STRUDEL, IGN, ENSG\\\medskip
 \section{Introduction}
 
 
-The study of forms of the built environment, and more precisely of the urban environment, has been the subject of different disciplines such as architecture, urban planning, or geography, with different approaches corresponding to various scales and processes \citep{moudon1997urban}. Establishing typologies of urban morphologies, and understanding their link with underlying urban growth processes, is nowadays a crucial issue for sustainability as a large majority of the world population live in cities and energy consumption is closely related to urban form \citep{newman2000sustainable}.
+The study of forms of the built environment, and more precisely of the urban environment, has been the subject of different disciplines such as architecture, urban planning, or geography, with different approaches corresponding to various scales and processes \citep{moudon1997urban}.
+Establishing typologies of urban morphologies, and understanding their link with underlying urban growth processes, is nowadays a crucial issue for sustainability as a large majority of the world population live in cities and energy consumption is closely related to urban form \citep{newman2000sustainable}.
 
 
-Although there is neither a unified definition of urban form, nor unified generative models and quantitative indicators to measure it, several approaches are close to the spirit of artificial life and generative social science. Procedural modeling \citep{watson2008procedural} aims at generating realistic cities, but is mostly focused on the visual impression given and does not consider realistic generative processes. It is furthermore developed largely at larger scales than the one of the district \citep{}. Approaches linked to urban planning have focused on the spatial distribution of land-use, at multiple scales \citep{}, and proposed cellular automata models for urban sprawl, generally at the scale of the metropolitan area \cite{herold2003spatiotemporal}.
+Although there is neither a unified definition of urban form, nor unified generative models and quantitative indicators to measure it, several approaches are close to the spirit of artificial life and generative social science.
+Procedural modeling \citep{watson2008procedural} aims at generating realistic cities, but is mostly focused on the visual impression given and does not consider realistic generative processes.
+It is furthermore developed largely at larger scales than the one of the district \citep{}.
+Approaches linked to urban planning have focused on the spatial distribution of land-use, at multiple scales \citep{}, and proposed cellular automata models for urban sprawl, generally at the scale of the metropolitan area \cite{herold2003spatiotemporal}.
 
 
 %Merrell, P., Schkufza, E., & Koltun, V. (2010, December). Computer-generated residential building layouts. In ACM Transactions on Graphics (TOG) (Vol. 29, No. 6, p. 181). ACM. -> intra building (mimic architecture)
@@ -98,13 +106,19 @@ Although there is neither a unified definition of urban form, nor unified genera
 % Horner, M. W. (2007). A multi-scale analysis of urban form and commuting change in a small metropolitan area (1990–2000). The Annals of Regional Science, 41(2), 315-332. : not really multi-scale ? + based on land-use
 
 
-This paper proposes a first step towards a systematic understanding of generative models of the urban form, at a large scale. The approach taken here is similar to the one taken by \cite{raimbault2018calibration}, which computes urban form indicators at a mesoscopic scale (metropolitan area) and calibrates a reaction-diffusion morphogenesis model. We consider real urban configurations at the scale of the district (fixed spatial window of 500m), compute their morphological characteristics, and use these measures to calibrate different generative models of urban layouts at the same scale. Our contribution is twofold: (i) we synthesize a set of indicators relevant at this scale, and compute them on a large sample of real urban configurations in European urban areas; (ii) we provide three different generative models
+This paper proposes a first step towards a systematic understanding of generative models of the urban form, at a large scale.
+The approach taken here is similar to the one taken by \cite{raimbault2018calibration}, which computes urban form indicators at a mesoscopic scale (metropolitan area) and calibrates a reaction-diffusion morphogenesis model.
+We consider real urban configurations at the scale of the district (fixed spatial window of 500m), compute their morphological characteristics, and use these measures to calibrate different generative models of urban layouts at the same scale.
+Our contribution is twofold: (i) we synthesize a set of indicators relevant at this scale, and compute them on a large sample of real urban configurations in European urban areas; (ii) we provide three different generative models
+% on drop le random ?
 
-The rest
-
+The rest of this article is structured as follows.
+First, we present the methods used in our work, including the measures allowing the comparison of urban forms, the proposed generative models and the method used to retrieve real urban configurations.
+The results of the proposed approach are then explained together with the tools used in the calibration of the models.
+Finally, the results are discussed.
 
 %%%%%%%%%%%%%%%%%%%%%
-\section{Methods}
+\section{Methods} \label{sec:methods}
 
 \subsection{Quantifying urban forms}
 
@@ -154,6 +168,33 @@ We consider the local urban space as a square grid with cells $1 \leq i \leq N$,
 % TODO justify the raster configuration (wouldnt be more logical to have vector generators at this scale ? discuss on "patches" : we do not care about even smaller details in buildings (as architects could do), but on the spatial distribution of free/occupied space at the granularity of patches. consistent with morpho indicators as they are computed, specifically for morpho math.
 
 
+%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{blocks}
+        \caption{Blocks}
+        \label{fig:blocks}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{expMixture}
+        \caption{Kernel mixture}
+        \label{fig:mixture}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{percolation}
+        \caption{Network percolation}
+        \label{fig:percolation}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{random}
+        \caption{Random}
+        \label{fig:random}
+    \end{subfigure}
+    \caption{Patterns produced by the synthetic generators.}
+    \label{fig:generators}
+\end{figure}
+%%%%%%%%%%%%%%
 
 
 
@@ -180,7 +221,7 @@ The last generator we used is based on network percolation, in the spirit of cap
 
 
 %%%%%%%%%%%%%%%%%%%%%
-\section{Results}
+\section{Results} \label{sec:results}
 
 Simulation results and real measures are available on the dataverse repository at \url{https://doi.org/10.7910/DVN/LGK0US}. Source code is available on the git repository of the project at \url{https://github.com/openmole/spatialdata}.
 
@@ -238,8 +279,7 @@ The mapping between generator parameters and the morphological space being highl
 
 
 %%%%%%%%%%%%%%%%%%%%%
-\section{Discussion}
-
+\section{Discussion} \label{sec:discussion}
 
 % Towards multi-scale approaches
 

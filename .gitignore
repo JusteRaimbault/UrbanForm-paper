@@ -1,3 +1,6 @@
 .texpadtmp
 paper.pdf
-
+paper.bbl
+paper.aux
+paper.blg
+paper.log
