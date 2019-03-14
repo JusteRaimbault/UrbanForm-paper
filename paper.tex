@@ -7,7 +7,7 @@
 \usepackage{url}
 
 \usepackage{subcaption}
-\graphicspath{{images/}}
+\graphicspath{{figures/}}
 % *****************
 %  Requirements:
 % *****************
@@ -100,9 +100,9 @@ Procedural modeling \citep{watson2008procedural} aims at generating realistic ci
 It is furthermore developed largely at larger scales than the one of the district \citep{Parish:2001:PMC:383259.383292}.
 Approaches linked to urban planning have focused on the spatial distribution of land-use, at multiple scales \citep{liu2017future}, and proposed cellular automata models for urban sprawl, generally at the scale of the metropolitan area \citep{herold2003spatiotemporal}.
 
-%Merrell, P., Schkufza, E., & Koltun, V. (2010, December). Computer-generated residential building layouts. In ACM Transactions on Graphics (TOG) (Vol. 29, No. 6, p. 181). ACM. -> intra building (mimic architecture)
-
-% Horner, M. W. (2007). A multi-scale analysis of urban form and commuting change in a small metropolitan area (1990–2000). The Annals of Regional Science, 41(2), 315-332. : not really multi-scale ? + based on land-use
+% rq : should not cite too much - paper size limit
+%\cite{merrell2010computer} internal building layouts generation
+%\cite{horner2007multi} multi-scale - link with commuting - based on land-use
 
 Urban form can furthermore be characterized considering different components of the urban system, such as building themselves as in several examples given before, but also for example transportation networks such as road networks \citep{ye2014quantitative}. To what extent these layers are complementary remains an open question, despite a few investigations coupling the two such as \cite{raimbault2018urban} suggesting indeed complementary dimensions. Regarding the geometrical properties of building layouts at the scale of a district, that we denote to simplify as urban form at a large scale, systematic characterizations and generative models remains rather rare. \cite{achibet2014model} for example describes a model of co-evolution of building layout and road network.
 
@@ -128,16 +128,8 @@ The approach taken requires both a robust way to quantify urban forms, through i
 \subsection{Quantifying urban forms}
 
 
-The quantification of urban form is in itself covered by a vast literature. Recent work have proposed to apply deep learning techniques directly on vector data, such as \cite{2017arXiv170902939M} does for a worldwide classification of road networks. Such an approach avoids the question of isolating relevant features. As we aim at calibrating generative models, we need to have interpretable measures.
+The quantification of urban form is in itself covered by a vast literature. Recent work have proposed to apply deep learning techniques directly on vector data, such as \cite{2017arXiv170902939M} does for a worldwide classification of road networks. Such an approach avoids the question of isolating relevant features. As we aim at calibrating generative models, we need to have interpretable measures. \cite{boeing2018measuring} proposes an extensive review of existing measures from a large extent of disciplines, their implications for planning and design, and the relation with urban complexity. \citep{webster1995urban} uses image processing techniques such as contrast or Fourier analysis, to extract synthetic descriptions of urban areas from satellite imaging. \cite{fumega2014identification} provides a typology of cities in relation with energy consumption in the perspective of climate change. \cite{rode2014cities} relates indicators of urban form with residential heat-energy demand. Other complexity-related approaches such as fractal dimensions have been introduced as for example by \cite{batty1987fractal}.
 
-% Webster, C. J. (1995). Urban morphological fingerprints. Environment and Planning B: Planning and design, 22(3), 279-297.
-\citep{webster1995urban}
-
-% + fractal dims etc
-
-\cite{boeing2018measuring} %measures
-\cite{fumega2014identification} %typology, metrics for Urban Energy And Climate Change Analysis
-\cite{rode2014cities} %urban morphology and residential heat-energy demand
 
 
 In practice, we use a variety of indicators capturing different aspects, each being detailed below. We consider the local urban space as a square grid of width $\sqrt{N}$ with cells $1 \leq i \leq N$, and an urban configuration is a binary function $s_i \in \{0;1\}$ on these cells. For the computation of indicators, we consider underlying complementary networks, the building network $B$ defined as nodes in centroids of occupied cells and links between two occupied direct neighbor cells (one cell unit of distance between centroids), and the free space network $\bar{B}$ defined similarly on empty cells. This raster representation is convenient as compatible with the various types of indicators and generators as described below. We will consider $\sqrt{N}=50$ in the following, and real windows of width $500m$.
@@ -145,7 +137,7 @@ In practice, we use a variety of indicators capturing different aspects, each be
 
 \subsubsection{Basic indicators}
 % building area, density, moran, average distance, number of buildings (components), average building area
-Simple descriptive indicators considered are (i) the total building density $A = \frac{1}{N}\cdot \sum_i s_i$; (ii) the number of buildings given by the number of connected components of $B$; (iii) 
+Simple descriptive indicators considered are (i) the total building density $A = \frac{1}{N}\cdot \sum_i s_i$; (ii) the number of buildings given by the number of connected components of $B$; (iii) the average building area, i.e. the average size of $B$ connected components; (iv) Moran index
 
 
 \subsubsection{Network indicator}
@@ -165,6 +157,7 @@ Simple descriptive indicators considered are (i) the total building density $A =
 
 
 
+
 %\subsection{Real urban morphologies}
 % osm buildings
 % not needed as procedure for osm data is explained in results
@@ -173,8 +166,7 @@ Simple descriptive indicators considered are (i) the total building density $A =
 
 \subsection{Generative models}
 
-
-
+We detail now the generative model introduced. A null model is also considered, to ensure the relevance of the morphological measures and the adjustments on these. It consists in a random grid generator, where each cell is occupied if a random uniform number between 0 and 1 is below a density parameter $d_R$.
 
 %%%%%%%%%%%%%%
 \begin{figure}
@@ -222,10 +214,10 @@ where $d_K$ is a range parameter giving the extent of kernels.
 
 \subsubsection{Network percolation model}
 
-The last generator we used is based on network percolation, in the spirit of capturing the constraints imposed by flows traversing a given urban area. While the two previous generator were based on building processes, this one relies on streets, and thus on processes linked to transportation. The idea is to link a fixed number $N_P$ of border points, which can be understood as entrances/exits of the area. Starting with a grid network 
+The last generator we used is based on network percolation, in the spirit of capturing the constraints imposed by flows traversing a given urban area. While the two previous generator were based on building processes, this one relies on streets, and thus on processes linked to transportation. The idea is to link a fixed number $N_P$ of border points, which can be understood as entrances/exits of the area. Starting with a grid network without links and nodes at a regular spatial sampling (fixed with a step of 5 units in our case), an iterative procedure (i) draws a random number and add a random link at an empty potential link if it is smaller than a parameter called the percolation probability $p_P$; (ii) computes the largest connected component of the network and the number of nodes of this component on the boundary of the world; (iii) stops if this number is equal to the parameter $N_P$. Cells not covered by the resulting giant component are then occupied, at the exception of cells within a neighborhood $L_P$ of a link of the giant component. This way, this component can be understood as a circulating area linking $N_P$ entrances and exits, with a constraint on width through $L_P$.
 
 
-Note that our generators will be ``fairly compared'' in terms of calibration, as they have the same number of parameters (although we do not introduce any information criteria that would yield the same penalization for overfitting).
+Note that our generators will be ``fairly compared'' in terms of calibration, as they have the same number of parameters (although we do not introduce any information criteria that would yield the same penalization for overfitting). We show in Fig.~\ref{fig:generators} visual representations of some outputs of each generator.
 
 
 
@@ -233,12 +225,13 @@ Note that our generators will be ``fairly compared'' in terms of calibration, as
 \section{Results} \label{sec:results}
 
 Simulation results and real measures are available on the dataverse repository at \url{https://doi.org/10.7910/DVN/LGK0US}. Source code is available on the git repository of the project at \url{https://github.com/openmole/spatialdata}.
+% TODO split repositories
 
 
 %%%%%%%%%%%
 \subsection{Real measures}
 
-We compute the morphological indicators given above on a large sample on real urban areas. For practical computational reasons, we restrain our geographical area of study to European urban areas as provided by \cite{}. We expect to already have a good representativity, although not universal, of existing urban forms with this sample, as it is known that European cities already have a significant morphological diversity \citep{le2015forme}. We collect building layouts from OpenStreetMap, as this source has been shown to have a good quality especially in Europe \citep{mooney2010towards}. Using the \texttt{osmosis} tool, buildings are filtered from the openstreetmap raw dump for Europe (downloaded from \url{http://download.geofabrik.de/} in March 2019) and inserted into a Postgis database, which can then be efficiently queried for a specific bounding box.
+We compute the morphological indicators given above on a large sample on real urban areas. For practical computational reasons, we restrain our geographical area of study to European urban areas as provided by \cite{}. We expect to already have a good representativity, although not universal, of existing urban forms with this sample, as it is known that European cities already have a significant morphological diversity \citep{le2015forme}. We collect building layouts from OpenStreetMap, as this source has been shown to have a good quality especially in Europe \citep{mooney2010towards}. Using the \texttt{osmosis} tool, buildings are filtered from the openstreetmap raw dump for Europe (downloaded from \url{http://download.geofabrik.de/} in March 2019) and inserted into a Postgis database, which can then be efficiently queried for a specific bounding box. Indeed, although the library developed provides a direct access to the OpenStreetMap API, query limitations do not allow such a systematic sampling.
 %Our tool also provide a direct access to the classic and overpass API % not necessary ?
 We sample $N=72,000$ points into polygons corresponding to urban areas, first by selecting the area with a uniform selection weighted by population of areas, then by drawing uniform spatial coordinates within the polygon with a polygon sampling heuristic. % TODO clarify the polygon sampler
 
@@ -247,8 +240,7 @@ We sample $N=72,000$ points into polygons corresponding to urban areas, first by
 %                           PC1    PC2     PC3
 % Cumulative Proportion  0.7031 0.8592 0.92755
 
-After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales  
-
+After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales, as the first principal component captures 70.3\% of variance, the second a cumulated proportion of 85.9\% and the third 92.8\%. The order of magnitude are similar to the ones found by \cite{Schwarz201029} for example.
 
 
 We can produce a typology of sampled urban areas through these measures.
@@ -271,29 +263,46 @@ We can produce a typology of sampled urban areas through these measures.
 %%%%%%%%%%%
 \subsection{Direct sampling}
 
-A first simulation experiment provides an insight into the patterns produced by the different generators in the morphological space. We sample the parameter space using a Latin Hypercube Sampling, with 10000 points for each generator respectively, and with 100 stochastic repetitions for each parameter point. The corresponding point cloud is shown in a reduced dimension in Fig.~\ref{fig:lhs}. Regarding the stochastic variability of generators, 
+A first simulation experiment provides an insight into the patterns produced by the different generators in the morphological space. We sample the parameter space using a Latin Hypercube Sampling, with 10000 points for each generator respectively, and with 100 stochastic repetitions for each parameter point. The corresponding point cloud is shown in a reduced dimension in Fig.~\ref{fig:lhs}.
+Regarding the stochastic variability of generators, % TODO sharpe ratios
+
+
 
 %%%%%%%%%%%%%%
-\begin{figure}
+\begin{figure*}
     \centering
-%    \includegraphics{}
-    \caption{Comparison of real morphologies with patterns produced by the synthetic generators.}
+    \includegraphics[width=\linewidth]{lhscalib_projrealpcs}
+    % TODO figure a refaire + corresponding examples of morphologies
+    \caption{Comparison of real morphologies with patterns produced by the synthetic generators. All points are projected into the first two components computed on the real measures only. Points in dark blue correspond to real configurations. The type of generator is given by the color in legend. Dark circle correspond to the centroids of clusters on which the calibration is done.}
     \label{fig:lhs}
-\end{figure}
+\end{figure*}
 %%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%
-\subsection{Calibration with Genetic algorithms}
 
-The mapping between generator parameters and the morphological space being highly non-linear, we are not ensured that the proximities observed above fully correspond to the potentialities of generators to generate real forms. Therefore, we proceed here to a calibration of these models.
+% les calibrations sont ULTRA mediocres, j'arrive pas a savoir pourquoi - pourtant ya beaucoup de runs - peut etre les islands trop courtes. on va surement devoir s'en resumer a un tableau de la distance de chaque generateur a chaque centroide ; avec l'info de plus de l'aggregation eventuellement - avec la sd.
+%%%%%%%%%%%
+%\subsection{Calibration with Genetic algorithms}
+%The mapping between generator parameters and the morphological space being highly non-linear, we are not ensured that the proximities observed above fully correspond to the potentialities of generators to generate real forms. Therefore, we proceed here to a calibration of these models.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%
 \section{Discussion} \label{sec:discussion}
 
-% Towards multi-scale approaches
+% TODO if no credible calib results -> discuss how it could be done. Rq : the calibration in high dimension with a projection is tricky / not much studied -- cf similar issue with diversity algorithms and the proposal of a PSE-PCA.
+
+Our approach provides a first step towards systematic modeling of generative processes of urban form at large scales, and can thus be extended in several ways.
+First of all, we focused on the built environment but neglected transportation infrastructures, whereas spatial network morphogenesis models have been proposed for example by \cite{courtat2011mathematics} or \cite{raimbault2018multi} in a multi-modeling approach.
+Taking into account multiple dimensions of the urban system is an important extension and hybrid models such as co-evolution models \citep{raimbault2014hybrid} should be investigated.
+
+Furthermore, we tested the complementarity of generators only in a static way. Adaptive and dynamic generators, combining processes of different nature within the same model with an endogenous switching or combination, would be an important direction to better understand urban morphogenesis.
+In the same context, the generators compared here had all the same number of parameters, but richer generators implying different numbers would require the use of information criterions to avoid overfitting, what however remains an unsolved issue for such generative simulation models \citep{piou2009proposing}.
+
+Finally, as extensively reviewed above, the way to quantify urban form strongly depends on the scale considered. A more integrative understanding of it would require multi-scale approaches able to relate these different definition and measures within a single multi-scalar framework.
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%
