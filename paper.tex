@@ -92,7 +92,7 @@ $^4$Univ. Paris-Est, LaSTIG STRUDEL, IGN, ENSG\\\medskip
 
 
 The study of forms of the built environment, and more precisely of the urban environment, has been the subject of different disciplines such as architecture, urban planning, or geography, with different approaches corresponding to various scales and processes \citep{moudon1997urban,gauthier2006mapping,kropf2009aspects}.
-Establishing typologies of urban morphologies, and understanding their link with underlying urban growth processes, is nowadays a crucial issue for sustainability as a large majority of the world population live in cities and energy consumption is closely related to urban form \citep{newman2000sustainable}.%Automobile dependence
+Establishing typologies of urban morphologies, and understanding their link with underlying urban growth processes, is nowadays a crucial issue for sustainability as a large majority of the world population live in cities and energy consumption is closely related to urban form through e.g. mobility patterns and automobile dependance \citep{newman2000sustainable}.
 
 
 Although there is neither a unified definition of urban form, nor unified generative models and quantitative indicators to measure it, several approaches are close to the spirit of artificial life and generative social science.
@@ -104,12 +104,16 @@ Approaches linked to urban planning have focused on the spatial distribution of 
 
 % Horner, M. W. (2007). A multi-scale analysis of urban form and commuting change in a small metropolitan area (1990–2000). The Annals of Regional Science, 41(2), 315-332. : not really multi-scale ? + based on land-use
 
+Urban form can furthermore
+
+
 
 This paper proposes a first step towards a systematic understanding of generative models of the urban form, at a large scale.
 The approach taken here is similar to the one taken by \cite{raimbault2018calibration}, which computes urban form indicators at a mesoscopic scale (metropolitan area) and calibrates a reaction-diffusion morphogenesis model.
 We consider real urban configurations at the scale of the district (fixed spatial window of 500m), compute their morphological characteristics, and use these measures to calibrate different generative models of urban layouts at the same scale.
 Our contribution is twofold: (i) we synthesize a set of indicators relevant at this scale, and compute them on a large sample of real urban configurations in European urban areas; (ii) we provide three different generative models
 % on drop le random ?
+%nope mais on peut pas vraiment le considerer comme un generateur, disons un modèle nul
 
 The rest of this article is structured as follows.
 First, we present the methods used in our work, including the measures allowing the comparison of urban forms, the proposed generative models and the method used to retrieve real urban configurations.
@@ -156,9 +160,9 @@ In practice, we use a variety of indicators capturing different aspects, each be
 
 
 
-\subsection{Real urban morphologies}
-
+%\subsection{Real urban morphologies}
 % osm buildings
+% not needed as procedure for osm data is explained in results
 
 
 
@@ -216,7 +220,7 @@ where $d_K$ is a range parameter giving the extent of kernels.
 The last generator we used is based on network percolation, in the spirit of capturing the constraints imposed by flows traversing a given urban area. While the two previous generator were based on building processes, this one relies on streets, and thus on processes linked to transportation. The idea is to link a fixed number $N_P$ of border points, which can be understood as entrances/exits of the area. Starting with a grid network 
 
 
-% note that our generators will be "fairly compared" in terms of calibration, as they have the same number of parameters
+Note that our generators will be ``fairly compared'' in terms of calibration, as they have the same number of parameters (although we do not introduce any information criteria that would yield the same penalization for overfitting).
 
 
 
@@ -231,14 +235,16 @@ Simulation results and real measures are available on the dataverse repository a
 
 We compute the morphological indicators given above on a large sample on real urban areas. For practical computational reasons, we restrain our geographical area of study to European urban areas as provided by \cite{}. We expect to already have a good representativity, although not universal, of existing urban forms with this sample, as it is known that European cities already have a significant morphological diversity \citep{le2015forme}. We collect building layouts from OpenStreetMap, as this source has been shown to have a good quality especially in Europe \citep{mooney2010towards}. Using the \texttt{osmosis} tool, buildings are filtered from the openstreetmap raw dump for Europe (downloaded from \url{http://download.geofabrik.de/} in March 2019) and inserted into a Postgis database, which can then be efficiently queried for a specific bounding box.
 %Our tool also provide a direct access to the classic and overpass API % not necessary ?
-We sample $N=xx$ points into polygons corresponding to urban areas, first by selecting the area with a uniform selection weighted by population of areas, then by drawing uniform spatial coordinates within the polygon with a polygon sampling heuristic. % TODO clarify the polygon sampler
-
+We sample $N=72,000$ points into polygons corresponding to urban areas, first by selecting the area with a uniform selection weighted by population of areas, then by drawing uniform spatial coordinates within the polygon with a polygon sampling heuristic. % TODO clarify the polygon sampler
 
 %  dim(real)
 % 17612    16
-
 %                           PC1    PC2     PC3
 % Cumulative Proportion  0.7031 0.8592 0.92755
+
+After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales  
+
+
 
 
 We show in Fig.~\ref{fig:realtypology} a typology of urban areas obtained from these measures.
@@ -259,7 +265,7 @@ We show in Fig.~\ref{fig:realtypology} a typology of urban areas obtained from t
 %%%%%%%%%%%
 \subsection{Direct sampling}
 
-A first simulation experiment provides an insight into the patterns produced by the different generators in the morphological space. We sample the parameter space using a Latin Hypercube Sampling, with 10000 points for each generator respectively, and with 100 stochastic repetitions for each parameter point. The corresponding point cloud is shown in a reduced dimension in Fig.~\ref{fig:lhs}.
+A first simulation experiment provides an insight into the patterns produced by the different generators in the morphological space. We sample the parameter space using a Latin Hypercube Sampling, with 10000 points for each generator respectively, and with 100 stochastic repetitions for each parameter point. The corresponding point cloud is shown in a reduced dimension in Fig.~\ref{fig:lhs}. Regarding the stochastic variability of generators, 
 
 %%%%%%%%%%%%%%
 \begin{figure}
