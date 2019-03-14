@@ -104,14 +104,14 @@ Approaches linked to urban planning have focused on the spatial distribution of 
 
 % Horner, M. W. (2007). A multi-scale analysis of urban form and commuting change in a small metropolitan area (1990–2000). The Annals of Regional Science, 41(2), 315-332. : not really multi-scale ? + based on land-use
 
-Urban form can furthermore
+Urban form can furthermore be characterized considering different components of the urban system, such as building themselves as in several examples given before, but also for example transportation networks such as road networks \citep{ye2014quantitative}. To what extent these layers are complementary remains an open question, despite a few investigations coupling the two such as \cite{raimbault2018urban} suggesting indeed complementary dimensions. Regarding the geometrical properties of building layouts at the scale of a district, that we denote to simplify as urban form at a large scale, systematic characterizations and generative models remains rather rare. \cite{achibet2014model} for example describes a model of co-evolution of building layout and road network.
 
 
 
 This paper proposes a first step towards a systematic understanding of generative models of the urban form, at a large scale.
 The approach taken here is similar to the one taken by \cite{raimbault2018calibration}, which computes urban form indicators at a mesoscopic scale (metropolitan area) and calibrates a reaction-diffusion morphogenesis model.
 We consider real urban configurations at the scale of the district (fixed spatial window of 500m), compute their morphological characteristics, and use these measures to calibrate different generative models of urban layouts at the same scale.
-Our contribution is twofold: (i) we synthesize a set of indicators relevant at this scale, and compute them on a large sample of real urban configurations in European urban areas; (ii) we provide three different generative models
+Our contribution is twofold: (i) we synthesize a set of indicators relevant at this scale, and compute them on a large sample of real urban configurations in European urban areas; (ii) we provide three different generative models complementary in the type of processes taken into account, and calibrate these models on the real morphological measures. We show therein the complementarity of the different processes to produce the variety of real urban forms considered.
 % on drop le random ?
 %nope mais on peut pas vraiment le considerer comme un generateur, disons un modèle nul
 
@@ -123,10 +123,12 @@ Finally, the results are discussed.
 %%%%%%%%%%%%%%%%%%%%%
 \section{Methods} \label{sec:methods}
 
+The approach taken requires both a robust way to quantify urban forms, through indicators that can be understood as features in the sense of machine learning, and generative models.
+
 \subsection{Quantifying urban forms}
 
-% literature on typologies ? not the main purpose of the paper
-\cite{2017arXiv170902939M} deep learning classification of roads
+
+The quantification of urban form is in itself covered by a vast literature. Recent work have proposed to apply deep learning techniques directly on vector data, such as \cite{2017arXiv170902939M} does for a worldwide classification of road networks. Such an approach avoids the question of isolating relevant features. As we aim at calibrating generative models, we need to have interpretable measures.
 
 % Webster, C. J. (1995). Urban morphological fingerprints. Environment and Planning B: Planning and design, 22(3), 279-297.
 \citep{webster1995urban}
@@ -137,10 +139,13 @@ Finally, the results are discussed.
 \cite{fumega2014identification} %typology, metrics for Urban Energy And Climate Change Analysis
 \cite{rode2014cities} %urban morphology and residential heat-energy demand
 
-In practice, we use a variety of indicators capturing different aspects, each being detailed below.
+
+In practice, we use a variety of indicators capturing different aspects, each being detailed below. We consider the local urban space as a square grid of width $\sqrt{N}$ with cells $1 \leq i \leq N$, and an urban configuration is a binary function $s_i \in \{0;1\}$ on these cells. For the computation of indicators, we consider underlying complementary networks, the building network $B$ defined as nodes in centroids of occupied cells and links between two occupied direct neighbor cells (one cell unit of distance between centroids), and the free space network $\bar{B}$ defined similarly on empty cells. This raster representation is convenient as compatible with the various types of indicators and generators as described below. We will consider $\sqrt{N}=50$ in the following, and real windows of width $500m$.
+% TODO justify the raster configuration (wouldnt be more logical to have vector generators at this scale ? discuss on "patches" : we do not care about even smaller details in buildings (as architects could do), but on the spatial distribution of free/occupied space at the granularity of patches. consistent with morpho indicators as they are computed, specifically for morpho math.
 
 \subsubsection{Basic indicators}
 % building area, density, moran, average distance, number of buildings (components), average building area
+Simple descriptive indicators considered are (i) the total building density $A = \frac{1}{N}\cdot \sum_i s_i$; (ii) the number of buildings given by the number of connected components of $B$; (iii) 
 
 
 \subsubsection{Network indicator}
@@ -168,8 +173,7 @@ In practice, we use a variety of indicators capturing different aspects, each be
 
 \subsection{Generative models}
 
-We consider the local urban space as a square grid with cells $1 \leq i \leq N$, and an urban configuration is a binary function $s_i \in \{0;1\}$ on these cells.
-% TODO justify the raster configuration (wouldnt be more logical to have vector generators at this scale ? discuss on "patches" : we do not care about even smaller details in buildings (as architects could do), but on the spatial distribution of free/occupied space at the granularity of patches. consistent with morpho indicators as they are computed, specifically for morpho math.
+
 
 
 %%%%%%%%%%%%%%
@@ -195,7 +199,8 @@ We consider the local urban space as a square grid with cells $1 \leq i \leq N$,
         \caption{Random}
         \label{fig:random}
     \end{subfigure}
-    \caption{Patterns produced by the synthetic generators.}
+    \caption{Example of patterns produced by the synthetic generators.}
+    % TODO should provide parameters here
     \label{fig:generators}
 \end{figure}
 %%%%%%%%%%%%%%
@@ -246,17 +251,18 @@ After removing the empty areas and areas with a too low (lower than 0.05) or a t
 
 
 
-
-We show in Fig.~\ref{fig:realtypology} a typology of urban areas obtained from these measures.
+We can produce a typology of sampled urban areas through these measures.
 % TODO typology of urban areas ?
 
+
+% figure not needed : existence of clear distinctions (diversity index) and correlation with coordinates is enough
 %%%%%%%%%%%%%%
-\begin{figure}
-    \centering
+%\begin{figure}
+%    \centering
 %    \includegraphics{}
-    \caption{Typology of morphological profiles of European urban areas.}
-    \label{fig:realtypology}
-\end{figure}
+%    \caption{Typology of morphological profiles of European urban areas.}
+%    \label{fig:realtypology}
+%\end{figure}
 %%%%%%%%%%%%%%
 
 
