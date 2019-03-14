@@ -113,7 +113,8 @@ The approach taken here is similar to the one taken by \cite{raimbault2018calibr
 We consider real urban configurations at the scale of the district (fixed spatial window of 500m), compute their morphological characteristics, and use these measures to calibrate different generative models of urban layouts at the same scale.
 Our contribution is twofold: (i) we synthesize a set of indicators relevant at this scale, and compute them on a large sample of real urban configurations in European urban areas; (ii) we provide three different generative models complementary in the type of processes taken into account, and calibrate these models on the real morphological measures. We show therein the complementarity of the different processes to produce the variety of real urban forms considered.
 % on drop le random ?
-%nope mais on peut pas vraiment le considerer comme un generateur, disons un modèle nul
+% nope mais on peut pas vraiment le considerer comme un generateur, disons un modèle nul
+% ok, je vais ajuster le commentaire des figures
 
 The rest of this article is structured as follows.
 First, we present the methods used in our work, including the measures allowing the comparison of urban forms, the proposed generative models and the method used to retrieve real urban configurations.
@@ -127,27 +128,22 @@ The approach taken requires both a robust way to quantify urban forms, through i
 
 \subsection{Quantifying urban forms}
 
-The quantification of urban form is in itself covered by a vast literature. Recent work have proposed to apply deep learning techniques directly on vector data, such as \cite{2017arXiv170902939M} does for a worldwide classification of road networks. Such an approach avoids the question of isolating relevant features. As we aim at calibrating generative models, we need to have interpretable measures.
+The quantification of urban form is in itself covered by a vast literature~\citep{webster1995urban,boeing2018measuring}.
+While some approaches rely on given classes and supervised learning and predefined classes~\citep{lesbegueries2012platform,rode2014cities}, others use unsupervised learning techniques.
+Recent work have proposed to apply deep learning techniques directly on vector data, such as \cite{2017arXiv170902939M} does, for a worldwide classification of road networks. Such an approach avoids the question of isolating relevant features.
+However, as we aim at calibrating generative models, we need to have interpretable measures.
+%devrait on justifier pourquoi on a besoin de mesures interprétables ???
 
+% ça c'était une tentative pour organiser les typologies mais c'est probablement overkill et on a pas trop de place et de temps à perdre
 %Different approaches have been proposed to define types of urban form depending of the objective.
 %Typology based on urban planning or urban geography.
 %Typology based on specific application domain (energy, climate change, etc.)
 %\cite{fumega2014identification} %typology, metrics for Urban Energy And Climate Change Analysis
 %\cite{rode2014cities} %urban morphology and residential heat-energy demand
-%Typology based on classification (image texture for instance
-
-% Webster, C. J. (1995). Urban morphological fingerprints. Environment and Planning B: Planning and design, 22(3), 279-297.
-\citep{webster1995urban}
-
+%Typology based on classification (image texture for instance)
 %Typology based on unsupervised learning
 
-\cite{2017arXiv170902939M} deep learning classification of roads
-
-
 % + fractal dims etc
-
-\cite{boeing2018measuring} %measures
-
 
 In practice, we use a variety of indicators capturing different aspects, each being detailed below. We consider the local urban space as a square grid of width $\sqrt{N}$ with cells $1 \leq i \leq N$, and an urban configuration is a binary function $s_i \in \{0;1\}$ on these cells. For the computation of indicators, we consider underlying complementary networks, the building network $B$ defined as nodes in centroids of occupied cells and links between two occupied direct neighbor cells (one cell unit of distance between centroids), and the free space network $\bar{B}$ defined similarly on empty cells. This raster representation is convenient as compatible with the various types of indicators and generators as described below. We will consider $\sqrt{N}=50$ in the following, and real windows of width $500m$.
 % TODO justify the raster configuration (wouldnt be more logical to have vector generators at this scale ? discuss on "patches" : we do not care about even smaller details in buildings (as architects could do), but on the spatial distribution of free/occupied space at the granularity of patches. consistent with morpho indicators as they are computed, specifically for morpho math.
@@ -218,24 +214,30 @@ Simple descriptive indicators considered are (i) the total building density $A =
 
 \subsubsection{Blocks generator}
 
-The most simple ``realistic'' generator is similar to procedural modeling and distributes building blocks into the space. Given a number $N_B$ of blocks, random positions are drawn and block of a random height and width (with minimal value $m_B$ and maximal value $M_B$ as parameters) are placed at these.
+% bon, pour moi les deux premiers modèles sont des modèles procéduraux et pourraient êtres formalisés comme des mpp mais je ne sais pas si c'est pertinent de redire ça à chaque fois...
+The most simple ``realistic'' generator is similar to procedural modeling or marked point processes and distributes building blocks into the space (see Figure~\ref{fig:blocks}). Given a number $N_B$ of blocks, random positions are drawn and block of a random height and width (with minimal value $m_B$ and maximal value $M_B$ as parameters) are placed at these.
 
 
 \subsubsection{Kernel mixture generator}
 
-Kernel mixture are a classical way to represent the spatial distribution of population density in an urban area \citep{anas1998urban}. They remain relevant at our scale, as they can be interpreted as a superposition of ``density hotspots'', as can the planning or the self-organization of a district can be. Given a number of centers $N_K$, $\vec{x}_{1\leq j \leq N_K}$ random position are drawn in the grid, at which kernels are applied, such that $s_i = \mathbbm{1}_{d_i \geq \theta_K}$ where the density $d_i$ for the point at position $\vec{x}_i$ is given by
+Kernel mixture are a classical way to represent the spatial distribution of population density in an urban area \citep{anas1998urban} (see Figure~\ref{fig:mixture}). They remain relevant at our scale, as they can be interpreted as a superposition of ``density hotspots'', as can the planning or the self-organization of a district can be. Given a number of centers $N_K$, $\vec{x}_{1\leq j \leq N_K}$ random position are drawn in the grid, at which kernels are applied, such that $s_i = \mathbbm{1}_{d_i \geq \theta_K}$ where the density $d_i$ for the point at position $\vec{x}_i$ is given by
 \begin{equation}
     d_i = \frac{1}{N_K}\cdot \sum_j \exp{\left(-\norm{\vec{x}_j - \vec{x}_i}/d_K\right)} 
 \end{equation}
 where $d_K$ is a range parameter giving the extent of kernels.
+% je ne suis pas convaincu par la formule : il y a un truc que j'ai raté ou il manque un vecteur
+% si les x_i correspondent aux posistion des centres (hotspots), alors on ne calcule les densités que sur les hotspots et il nous manque la possibilité de calculer les densités pour les autres points. On aurait pas besoin de 2 vecteurs ? x_i => les centres, y_i => l'ensemble des points ?
+% Dans le papier d'Anas il triche un peu : il utilise x_ij (mn dans le papier) pour la distance entre le point i et le centre j...
 
 \subsubsection{Network percolation model}
 
-The last generator we used is based on network percolation, in the spirit of capturing the constraints imposed by flows traversing a given urban area. While the two previous generator were based on building processes, this one relies on streets, and thus on processes linked to transportation. The idea is to link a fixed number $N_P$ of border points, which can be understood as entrances/exits of the area. Starting with a grid network 
+The last generator we used is based on network percolation, in the spirit of capturing the constraints imposed by flows traversing a given urban area (see Figure~\ref{fig:percolation}). While the two previous generator were based on building processes, this one relies on streets, and thus on processes linked to transportation. The idea is to link a fixed number $N_P$ of border points, which can be understood as entrances/exits of the area. Starting with a grid network 
+
+
 
 
 Note that our generators will be ``fairly compared'' in terms of calibration, as they have the same number of parameters (although we do not introduce any information criteria that would yield the same penalization for overfitting).
-
+Finally, they will also be compared to a random generator (see Figure~\ref{fig:random}).
 
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -256,8 +258,52 @@ We sample $N=72,000$ points into polygons corresponding to urban areas, first by
 %                           PC1    PC2     PC3
 % Cumulative Proportion  0.7031 0.8592 0.92755
 
-After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales  
+After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points (illustrated in Figure~\ref{fig:osm}) on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales  
 
+%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(2.767548582324828,42.12774259047379)}.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(2.956412030079216,48.95833438674378)}.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(2.8534915107882908,48.87943398394085)}.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(4.724576799597424,46.11247464316661)}.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(6.693161940127149,51.28067900621835)}.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(7.665417780766332,51.61719462734998)}.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(7.746400123854242,49.448716515580514)}.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(8.66720808445827,49.469125872820456)}.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(8.368921085687871,49.224787816959754)}.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(9.3988783289936,45.52643666558245)}.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(9.422039749719488,48.68506062982569)}.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.1\textwidth}
+        \includegraphics[width=\textwidth]{{osm_(10.529303821177011,57.458935658684915)}.png}
+    \end{subfigure}
+    \caption{Example of patterns extracted from OpenStreetMap.}
+    % TODO should provide parameters here
+    \label{fig:osm}
+\end{figure}
+%%%%%%%%%%%%%%
 
 
 We can produce a typology of sampled urban areas through these measures.
