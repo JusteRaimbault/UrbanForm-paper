@@ -299,7 +299,20 @@ We sample $N=72,000$ points into polygons corresponding to urban areas, first by
 \end{figure}
 %%%%%%%%%%%%%%
 
-After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales, as the first principal component on normalized indicators captures 70.3\% of variance, the second a cumulated proportion of 85.9\% and the third 92.8\%. The order of magnitude are similar to the ones found by \cite{Schwarz201029} for example.
+After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales, as the first principal component on normalized indicators captures 70.3\% of variance, the second a cumulated proportion of 85.9\% and the third 92.8\%. The order of magnitude are similar to the ones found by \cite{Schwarz201029} for example. The first component captures low density (coefficient -0.43 for density) but clustered configurations (-0.35 for average distance), confirmed by the positive influence of dilation steps (0.44). On the contrary, the second component captures dispersed configurations (negative Moran and positive average distance) with large blocks (negative dilation steps).
+
+%                           PC1         PC2
+%moran              0.01962239 -0.29010345
+%avgDistance       -0.35342592  0.43463871
+%density           -0.43963530 -0.35137034
+%components        -0.45898251  0.02350718
+%avgDetour         -0.24658880 -0.60285531
+%avgBlockArea       0.01057885 -0.24560142
+%avgComponentArea   0.46349104 -0.06682787
+%fullDilationSteps  0.44023730 -0.25226912
+%fullErosionSteps  -0.03478745 -0.33324949
+
+
 
 
 
@@ -321,7 +334,13 @@ After removing the empty areas and areas with a too low (lower than 0.05) or a t
 
 We obtain a broad variety of forms, measures such as the Moran index varying between 0.02 (small disparate settlements) to 0.93 (one huge block), with a median at 0.10 (several medium size buildings). Similarly, the number of dilation steps varies from 3 (narrow streets only) to 80 (mostly open spaces) with a median at 26. The mean density is 0.21, what means that around 21\% of the soil is covered with building in average in the space we sampled, confirming that the most of urban areas are not dense contrary to the highly dense centers which are a minority.
 
-We can also consider the distribution of these measures within sampled urban areas.
+
+To obtain typical representative points, we proceed to an unsupervised clustering on the two first principal components of these points. Using a k-means algorithm (5000 stochastic repetitions), varying the number of clusters shows an endogenous transition in the within-cluster variance proportion, suggesting to take $k=4$.
+Examples within the classes are shown in Fig.~\ref{fig:osm_types}.
+The centroids will be used as typical objectives for model calibration.
+
+
+We can also consider the distribution of these measures within sampled urban areas. 
 
 
 %%%%%%%%%%%%%%
