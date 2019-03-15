@@ -294,7 +294,7 @@ We sample $N=72,000$ points into polygons corresponding to urban areas, first by
         \includegraphics[width=\textwidth]{{osm_(10.529303821177011,57.458935658684915)}.png}
     \end{subfigure}
     \caption{Samples extracted from OpenStreetMap.}
-    % TODO should provide parameters here
+    % provide coordinates ?
     \label{fig:osm}
 \end{figure}
 %%%%%%%%%%%%%%
@@ -336,11 +336,11 @@ We obtain a broad variety of forms, measures such as the Moran index varying bet
 
 
 To obtain typical representative points, we proceed to an unsupervised clustering on the two first principal components of these points. Using a k-means algorithm (5000 stochastic repetitions), varying the number of clusters shows an endogenous transition in the within-cluster variance proportion, suggesting to take $k=4$.
-Examples within the classes are shown in Fig.~\ref{fig:osm_types}.
+Examples within the classes are shown in Fig.~\ref{fig:osm_types}. %TODO discuss a bit
 The centroids will be used as typical objectives for model calibration.
 
 
-We can also consider the distribution of these measures within sampled urban areas. 
+We can also consider the distribution of these measures within sampled urban areas. Keeping the areas with more than 10 sample points, we obtain 219 areas, for which we can compute the proportion of points within each morphological cluster. An Herfindhal diversity index on these proportions $p_k \in \left[0,1\right]$ computed as $h = 1 - \sum_k p_k^2$ ranges between 0.31 and 0.75 with an average of 0.63, suggesting very different profiles of urban areas. A chi-squared test of 10 levels of this diversity with the country is not significant (p=0.7), but the diversity index negatively correlates ($\rho = -0.11$, Fisher 95\% confidence interval $\left[-0.24,0.02\right]$) with longitude, meaning that Western cities are more diverse than Eastern cities, and more slightly with latitude ($\rho = 0.08 \left[-0.04,0.21\right]$).
 
 
 %%%%%%%%%%%%%%
@@ -399,7 +399,7 @@ We can also consider the distribution of these measures within sampled urban are
     \includegraphics[width=\textwidth]{{osm/4/osm_12.4396942996003_50.983284784414_4}.png}
   \end{subfigure}\\
   \caption{Typology applied to OpenStreetMap samples.}
-  % TODO should provide parameters here
+  % provide coordinates ?
   \label{fig:osm_types}
 \end{figure}
 %%%%%%%%%%%%%%
@@ -418,7 +418,7 @@ We can also consider the distribution of these measures within sampled urban are
 
 
 %%%%%%%%%%%
-\subsection{Direct sampling}
+\subsection{Model simulation and calibration}
 
 A first simulation experiment provides an insight into the patterns produced by the different generators in the morphological space. We sample the parameter space using a Latin Hypercube Sampling, with 10000 points for each generator respectively, and with 100 stochastic repetitions for each parameter point. The corresponding point cloud is shown in a reduced dimension in Fig.~\ref{fig:lhs}.
 Regarding the stochastic variability of generators, % TODO sharpe ratios
@@ -427,10 +427,22 @@ Regarding the stochastic variability of generators, % TODO sharpe ratios
 
 %%%%%%%%%%%%%%
 \begin{figure*}
+\vspace{-1.5cm}
     \centering
+    (1)
+    \framebox{\includegraphics[width=0.18\linewidth]{closest1_blocks}}
+    \framebox{\includegraphics[width=0.18\linewidth]{closest1_real}}\hspace{0.4cm}
+    (2)
+    \framebox{\includegraphics[width=0.18\linewidth]{closest2_expMixture}}
+    \framebox{\includegraphics[width=0.18\linewidth]{closest2_real}}\\\vspace{0.2cm}
+    (3)
+    \framebox{\includegraphics[width=0.18\linewidth]{closest3_blocks}}
+    \framebox{\includegraphics[width=0.18\linewidth]{closest3_real}}\hspace{0.4cm}
+    (4)
+    \framebox{\includegraphics[width=0.18\linewidth]{closest4_percolation}}
+    \framebox{\includegraphics[width=0.18\linewidth]{closest4_real}}\\
     \includegraphics[width=\linewidth]{lhscalib_projrealpcs}
-    % TODO figure a refaire + corresponding examples of morphologies
-    \caption{Comparison of real morphologies with patterns produced by the synthetic generators. All points are projected into the first two components computed on the real measures only. Points in dark blue correspond to real configurations. The type of generator is given by the color in legend. Dark circle correspond to the centroids of clusters on which the calibration is done.}
+    \caption{Comparison of real morphologies with patterns produced by the synthetic generators. All points are projected into the first two components computed on the real measures only. Points in dark blue correspond to real configurations. The type of generator is given by the color in legend. Dark circle correspond to the centroids of clusters on which the calibration is done, their number giving the corresponding configurations shown above. For each, we successively show the best synthetic configuration ((1) block generator, (2) exponential mixture generator, (3) block generator, (4) percolation generator), and the real configuration from OSM.}
     \label{fig:lhs}
 \end{figure*}
 %%%%%%%%%%%%%%
