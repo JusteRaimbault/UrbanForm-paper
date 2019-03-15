@@ -234,19 +234,9 @@ We show in Fig.~\ref{fig:generators} visual representations of some outputs of e
 
 Simulation results and real measures are available on the dataverse repository at \url{https://doi.org/10.7910/DVN/LGK0US}. Source code is available on the git repository of the project at \url{https://github.com/openmole/spatialdata}.
 % TODO split repositories
+The model and indicators were coded in scala langage for performance purposes. This furthermore allows a seamless integration into the OpenMOLE workflow engine for model exploration \citep{reuillon2013openmole}, which provides methods for numerical experiments (in our case sampling methods) and transparent access to high performance computation environments (model simulation were run on the European Grid Infrastructure for an equivalent of one year and one month CPU time).
 
 
-%%%%%%%%%%%
-\subsection{Real measures}
-
-We compute the morphological indicators given above on a large sample on real urban areas. For practical computational reasons, we restrain our geographical area of study to European functional urban areas as provided by \cite{bretagnolle2019following}. We expect to already have a good representativity, although not universal, of existing urban forms with this sample, as it is known that European cities already have a significant morphological diversity \citep{le2015forme}. We collect building layouts from OpenStreetMap (illustrated in Figure~\ref{fig:osm}), as this source has been shown to have a good quality especially in Europe \citep{mooney2010towards}. Using the \texttt{osmosis} tool, buildings are filtered from the openstreetmap raw dump for Europe (downloaded from \url{http://download.geofabrik.de/} in March 2019) and inserted into a Postgis database, which can then be efficiently queried for a specific bounding box. Indeed, although the library developed provides a direct access to the OpenStreetMap API, query limitations do not allow such a systematic sampling.
-%Our tool also provide a direct access to the classic and overpass API % not necessary ?
-We sample $N=72,000$ points into polygons corresponding to urban areas, first by selecting the area with a uniform selection weighted by population of areas, then by drawing uniform spatial coordinates within the polygon with a polygon sampling heuristic. % TODO clarify the polygon sampler
-
-%  dim(real)
-% 17612    16
-%                           PC1    PC2     PC3
-% Cumulative Proportion  0.7031 0.8592 0.92755
 
 %%%%%%%%%%%%%%
 \begin{figure}
@@ -293,6 +283,86 @@ We sample $N=72,000$ points into polygons corresponding to urban areas, first by
 \end{figure}
 %%%%%%%%%%%%%%
 
+%%%%%%%%%%%
+\subsection{Real measures}
+
+
+
+%%%%%%%%%%%%%%
+\begin{figure*}
+\vspace{-1cm}
+  \centering
+  \rotatebox{90}{Class 1}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/1/osm_2.43416877400257_48.5494220403648_1}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/1/osm_3.20479601880545_50.1572174642354_1}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/1/osm_6.03454192624923_43.1438923676911_1}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/1/osm_7.76412991205779_47.6437664789465_1}.png}}
+  \end{subfigure}\\
+  \rotatebox{90}{Class 2}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/2/osm_4.73115258198923_45.9763617017002_2}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/2/osm_4.92601740592234E-5_50.7945845258906_2}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/2/osm_8.76440233864255_50.3459471560717_2}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/2/osm_10.6351277289413_51.1689134935896_2}.png}}
+  \end{subfigure}\\
+  \rotatebox{90}{Class 3}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/3/osm_2.78910884212325_50.5481512216399_3}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/3/osm_20.0294237103859_51.5168560281418_3}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/3/osm_5.55350495469112_51.4926898192205_3}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/3/osm_23.8025598321731_54.950616933903_3}.png}}
+  \end{subfigure}\\
+  \rotatebox{90}{Class 4}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/4/osm_5.28978808584814_52.0605158929046_4}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/4/osm_6.11373040780706_50.9165373258647_4}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/4/osm_8.35334588815557_49.530653800312_4}.png}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.13\textwidth}
+    \framebox{\includegraphics[width=\textwidth]{{osm/4/osm_12.4396942996003_50.983284784414_4}.png}}
+  \end{subfigure}\\
+  \caption{Typology applied to OpenStreetMap samples. The first class correspond mostly to a high density of linear buildings, recalling modern urbanism projects; the second disparate large buildings that can corresponds to industrials buildings in the outskirt of cities; the third disparate small buildings closer to periurban settlements; the fourth are denser and more complicated patterns evoking historical urban centers.}
+  % provide coordinates ?
+  \label{fig:osm_types}
+\end{figure*}
+%%%%%%%%%%%%%%
+
+
+
+
+We compute the morphological indicators given above on a large sample on real urban areas. For practical computational reasons, we restrain our geographical area of study to European functional urban areas as provided by \cite{bretagnolle2019following}. We expect to already have a good representativity, although not universal, of existing urban forms with this sample, as it is known that European cities already have a significant morphological diversity \citep{le2015forme}. We collect building layouts from OpenStreetMap (illustrated in Figure~\ref{fig:osm}), as this source has been shown to have a good quality especially in Europe \citep{mooney2010towards}. Using the \texttt{osmosis} tool, buildings are filtered from the openstreetmap raw dump for Europe (downloaded from \url{http://download.geofabrik.de/} in March 2019) and inserted into a Postgis database, which can then be efficiently queried for a specific bounding box. Indeed, although the library developed provides a direct access to the OpenStreetMap API, query limitations do not allow such a systematic sampling.
+%Our tool also provide a direct access to the classic and overpass API % not necessary ?
+We sample $N=72,000$ points into polygons corresponding to urban areas, first by selecting the area with a uniform selection weighted by population of areas, then by drawing uniform spatial coordinates within the polygon with a polygon sampling heuristic. % TODO clarify the polygon sampler
+
+%  dim(real)
+% 17612    16
+%                           PC1    PC2     PC3
+% Cumulative Proportion  0.7031 0.8592 0.92755
+
+
 After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales, as the first principal component on normalized indicators captures 70.3\% of variance, the second a cumulated proportion of 85.9\% and the third 92.8\%. The order of magnitude are similar to the ones found by \cite{Schwarz201029} for example. The first component captures low density (coefficient -0.43 for density) but clustered configurations (-0.35 for average distance), confirmed by the positive influence of dilation steps (0.44). On the contrary, the second component captures dispersed configurations (negative Moran and positive average distance) with large blocks (negative dilation steps).
 
 %                           PC1         PC2
@@ -332,69 +402,6 @@ We obtain a broad variety of forms, measures such as the Moran index varying bet
 To obtain typical representative points, we proceed to an unsupervised clustering on the two first principal components of these points. Using a k-means algorithm (5000 stochastic repetitions), varying the number of clusters shows an endogenous transition in the within-cluster variance proportion, suggesting to take $k=4$. Examples within the classes are shown and commented in Fig.~\ref{fig:osm_types}. The centroids will be used as typical objectives for model calibration.
 
 
-We can also consider the distribution of these measures within sampled urban areas. Keeping the areas with more than 10 sample points, we obtain 219 areas, for which we can compute the proportion of points within each morphological cluster. An Herfindhal diversity index on these proportions $p_k \in \left[0,1\right]$ computed as $h = 1 - \sum_k p_k^2$ ranges between 0.31 and 0.75 with an average of 0.63, suggesting very different profiles of urban areas. A chi-squared test of 10 levels of this diversity with the country is not significant (p=0.7), but the diversity index negatively correlates ($\rho = -0.11$, Fisher 95\% confidence interval $\left[-0.24,0.02\right]$) with longitude, meaning that Western cities are more diverse than Eastern cities, and more slightly with latitude ($\rho = 0.08 \left[-0.04,0.21\right]$).
-
-
-%%%%%%%%%%%%%%
-\begin{figure}
-  \centering
-  \rotatebox{90}{Class 1}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/1/osm_2.43416877400257_48.5494220403648_1}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/1/osm_3.20479601880545_50.1572174642354_1}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/1/osm_6.03454192624923_43.1438923676911_1}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/1/osm_7.76412991205779_47.6437664789465_1}.png}
-  \end{subfigure}\\
-  \rotatebox{90}{Class 2}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/2/osm_4.73115258198923_45.9763617017002_2}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/2/osm_4.92601740592234E-5_50.7945845258906_2}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/2/osm_8.76440233864255_50.3459471560717_2}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/2/osm_10.6351277289413_51.1689134935896_2}.png}
-  \end{subfigure}\\
-  \rotatebox{90}{Class 3}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/3/osm_2.78910884212325_50.5481512216399_3}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/3/osm_20.0294237103859_51.5168560281418_3}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/3/osm_5.55350495469112_51.4926898192205_3}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/3/osm_23.8025598321731_54.950616933903_3}.png}
-  \end{subfigure}\\
-  \rotatebox{90}{Class 4}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/4/osm_5.28978808584814_52.0605158929046_4}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/4/osm_6.11373040780706_50.9165373258647_4}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/4/osm_8.35334588815557_49.530653800312_4}.png}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.1\textwidth}
-    \includegraphics[width=\textwidth]{{osm/4/osm_12.4396942996003_50.983284784414_4}.png}
-  \end{subfigure}\\
-  \caption{Typology applied to OpenStreetMap samples. The first class correspond mostly to a high density of linear buildings, recalling modern urbanism projects; the second disparate large buildings that can corresponds to industrials buildings in the outskirt of cities; the third disparate small buildings closer to periurban settlements; the fourth are denser and more complicated patterns evoking historical urban centers.}
-  % provide coordinates ?
-  \label{fig:osm_types}
-\end{figure}
-%%%%%%%%%%%%%%
 
 % figure not needed : existence of clear distinctions (diversity index) and correlation with coordinates is enough
 %%%%%%%%%%%%%%
@@ -405,17 +412,6 @@ We can also consider the distribution of these measures within sampled urban are
 %    \label{fig:realtypology}
 %\end{figure}
 %%%%%%%%%%%%%%
-
-
-
-
-%%%%%%%%%%%
-\subsection{Model simulation and calibration}
-
-A simulation experiment provides an insight into the patterns produced by the different generators in the morphological space. We sample the parameter space using a Latin Hypercube Sampling, with 10000 points for each generator respectively, and with 100 stochastic repetitions for each parameter point. 
-
-Regarding the stochastic variability of generators, we compute for each indicator and each parameter point the sharpe ratios on repetitions, defined as the ratio between the estimated average and the estimated standard deviation. The indicators with the lowest values (high values indicate a low influence of stochastic fluctuations in comparison to variations due to parameters) are Moran index with a minimum of 0.22 and a median of 4.8, and the average detour with a minimum of 0.7 and a median of 5.2 (what could have been expected for this one as it is stochastically estimated). All other indicators have minimal sharpe ratios above 1.5 and medians above 5.4, meaning that models are overall not much sensitive to stochastic fluctuations. This confirms that considering single realisations as representing one parameter set remains reasonable.
-
 
 
 %%%%%%%%%%%%%%
@@ -440,6 +436,25 @@ Regarding the stochastic variability of generators, we compute for each indicato
 \end{figure*}
 %%%%%%%%%%%%%%
 
+
+We can also consider the distribution of these measures within sampled urban areas. Keeping the areas with more than 10 sample points, we obtain 219 areas, for which we can compute the proportion of points within each morphological cluster. An Herfindhal diversity index on these proportions $p_k \in \left[0,1\right]$ computed as $h = 1 - \sum_k p_k^2$ ranges between 0.31 and 0.75 with an average of 0.63, suggesting very different profiles of urban areas. A chi-squared test of 10 levels of this diversity with the country is not significant (p=0.7), but the diversity index negatively correlates ($\rho = -0.11$, Fisher 95\% confidence interval $\left[-0.24,0.02\right]$) with longitude, meaning that Western cities are more diverse than Eastern cities, and more slightly with latitude ($\rho = 0.08 \left[-0.04,0.21\right]$).
+
+
+
+
+%%%%%%%%%%%
+\subsection{Model simulation and calibration}
+
+
+
+A simulation experiment provides an insight into the patterns produced by the different generators in the morphological space. We sample the parameter space using a Latin Hypercube Sampling, with 10000 points for each generator respectively, and with 100 stochastic repetitions for each parameter point. This sampling is achieved with scripting the models into the OpenMOLE platform~\citep{reuillon2013openmole}.
+
+Regarding the stochastic variability of generators, we compute for each indicator and each parameter point the sharpe ratios on repetitions, defined as the ratio between the estimated average and the estimated standard deviation. The indicators with the lowest values (high values indicate a low influence of stochastic fluctuations in comparison to variations due to parameters) are Moran index with a minimum of 0.22 and a median of 4.8, and the average detour with a minimum of 0.7 and a median of 5.2 (what could have been expected for this one as it is stochastically estimated). All other indicators have minimal sharpe ratios above 1.5 and medians above 5.4, meaning that models are overall not much sensitive to stochastic fluctuations. This confirms that considering single realisations as representing one parameter set remains reasonable.
+
+
+
+
+
 We turn now to the comparison of generated configurations with real configurations. We work in the projected two dimensional space of the two first principal components of real points described above, in order to capture the maximum of variability in the real point cloud rather than in the simulated one. Note that working in the full indicator space makes no sense given the effective dimensions obtained (the simulated point cloud captures 93\% of variance at its third principal component, which is just a bit more than the real point cloud).
 
 
@@ -456,10 +471,30 @@ For each centroid of the clusters in the real point cloud described above, that 
 %\subsection{Calibration with Genetic algorithms}
 %The mapping between generator parameters and the morphological space being highly non-linear, we are not ensured that the proximities observed above fully correspond to the potentialities of generators to generate real forms. Therefore, we proceed here to a calibration of these models.
 
+%%%%%%%%%%%%%%%%%
+\begin{table*}[h]
+\center{
+\begin{tabular}{|c|c|c|c|c|}\hline
+           & Random & Blocks & Exp. Mixture & Percolation\\ \hline\hline
+Centroid 1 & $0.424 \pm 0.011$ & $0.106 \pm 0.063$ & $0.303\pm 0.101$ & $0.325\pm 0.019$ \\
+Centroid 2 &$0.809\pm 0.022$&$0.164\pm 0.099$&$0.184\pm 0.141$&$0.947\pm 0.019$\\
+Centroid 3 &$0.428\pm 0.019$&$0.095\pm 0.054$&$0.109\pm 0.064$&$0.541\pm 0.019$\\
+Centroid 4 &$0.515 \pm 0.005$&$0.311\pm 0.077$&$0.589\pm 0.149$ &$0.083\pm 0.025$\\\hline
+\end{tabular}
+}
+\vskip 0.25cm
+\caption{Aggregated distance in the morphological space, for each generator and each calibration objective (real clusters centroids). Euclidian distance in the projected space are aggregated in average on stochastic repetitions, and the minimal average value is reported with its standard deviation.\label{tab:averagedists}}
+\end{table*}
+%%%%%%%%%%%%%%%%%
+
+
+To quantify the level of calibration of each generator regarding each centroid, and in average regarding stochastic repetitions, we provide in Table~\ref{tab:averagedists} the aggregated minimal values of distances, for each generator and each calibration objective, with their standard deviations. This mainly confirms the previous results, with however interesting variations: (i) for the second centroid, the exponential mixture is in average no longer the best, and furthermore has a higher variability; (ii) centroid three and four are the easiest to reach, despite the latest being in the boundary; (iii) the percolation generator performs well on this point and has a very low variability.
+
+
+This experiment has therefore shown the possibility to calibrate the generative models on morphological measures against real configurations, and furthermore unveils their complementarity to approach the diverse existing forms.
 
 
 
-To quantify the level of calibration of each generator regarding each centroid, and in average regarding stochastic repetitions, we provide in Table~
 
 
 
@@ -471,8 +506,10 @@ To quantify the level of calibration of each generator regarding each centroid, 
 
 % TODO if no credible calib results -> discuss how it could be done. Rq : the calibration in high dimension with a projection is tricky / not much studied -- cf similar issue with diversity algorithms and the proposal of a PSE-PCA.
 
-Our approach provides a first step towards systematic modeling of generative processes of urban form at large scales, and can thus be extended in several ways.
-First of all, we focused on the built environment but neglected transportation infrastructures, whereas spatial network morphogenesis models have been proposed for example by \cite{courtat2011mathematics} or \cite{raimbault2018multi} in a multi-modeling approach.
+Our approach provides a first step towards systematic modeling of generative processes of urban form at large scales. Some direct limitations could be tackled in a short term. Testing slightly different processes and heuristics in generator may be a way to cover the part of the real point cloud which is missed by our generators. As it seems correspond to complicated urban centers, it may be however complicated without more elaborated models. Also, we did not use minimization algorithms to calibrate the generators, and the and a further step would consist in checking the robustness of our result using such optimization heuristics (genetic algorithms for example), but also diversity algorithms such as pattern space exploration proposed by \cite{10.1371/journal.pone.0138212}, to ensure the effective feasible space of each generator. 
+
+
+This work can also be extended in several ways. First of all, we focused on the built environment but neglected transportation infrastructures, whereas spatial network morphogenesis models have been proposed for example by \cite{courtat2011mathematics} or \cite{raimbault2018multi} in a multi-modeling approach.
 Taking into account multiple dimensions of the urban system is an important extension and hybrid models such as co-evolution models \citep{raimbault2014hybrid} should be investigated.
 
 Furthermore, we tested the complementarity of generators only in a static way. Adaptive and dynamic generators, combining processes of different nature within the same model with an endogenous switching or combination, would be an important direction to better understand urban morphogenesis.
@@ -481,11 +518,10 @@ In the same context, the generators compared here had all the same number of par
 Finally, as extensively reviewed above, the way to quantify urban form strongly depends on the scale considered. A more integrative understanding of it would require multi-scale approaches able to relate these different definition and measures within a single multi-scalar framework.
 
 
-
-
-
 %%%%%%%%%%%%%%%%%%%%%
-%\section{Conclusion}
+\section{Conclusion}
+
+We have proposed here a new insight into the generative simulation of urban morphologies at large scales, namely the scale of the district considering the layout of buildings. After computing morphological measures on a large sample of real urban areas, we showed the complementarity of different generators capturing various aspects of urban morphogenesis processes. Despite not implying generative agents (developers, inhabitants, companies) and thus staying close to procedural modeling, this work however paves the way towards a more systematic understanding of generative processes of urban form at this scale.
 
 
 
