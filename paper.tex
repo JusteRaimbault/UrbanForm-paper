@@ -60,7 +60,8 @@
 $^1$UPS CNRS 3611 ISC-PIF\\
 $^2$CASA, UCL\\
 $^3$UMR CNRS 8504 G{\'e}ographie-cit{\'e}s\\
-$^4$Univ. Paris-Est, LaSTIG STRUDEL, IGN, ENSG\\\medskip
+$^4$Univ. Paris-Est, LaSTIG STRUDEL, IGN, ENSG\\
+\medskip
 * juste.raimbault@polytechnique.edu} % email of corresponding author
 
 % For several authors from the same institution use the same number to
@@ -112,6 +113,7 @@ This paper proposes a first step towards a systematic understanding of generativ
 The approach taken here is similar to the one taken by \cite{raimbault2018calibration}, which computes urban form indicators at a mesoscopic scale (metropolitan area) and calibrates a reaction-diffusion morphogenesis model.
 We consider real urban configurations at the scale of the district (fixed spatial window of 500m), compute their morphological characteristics, and use these measures to calibrate different generative models of urban layouts at the same scale.
 Our contribution is twofold: (i) we synthesize a set of indicators relevant at this scale, and compute them on a large sample of real urban configurations in European urban areas; (ii) we provide three different generative models complementary in the type of processes taken into account, and calibrate these models on the real morphological measures. We show therein the complementarity of the different processes to produce the variety of real urban forms considered.
+This is to the best of our knowledge the first time several generative models at this scale are systematically compared on a large number of real configurations through quantitative measures.
 % on drop le random ?
 % nope mais on peut pas vraiment le considerer comme un generateur, disons un modèle nul
 % ok, je vais ajuster le commentaire des figures
@@ -130,27 +132,32 @@ The approach taken requires both a robust way to quantify urban forms, through i
 
 The quantification of urban form is in itself covered by a vast literature.
 Recent work have proposed to apply deep learning techniques directly on vector data, such as \cite{2017arXiv170902939M} does, for a worldwide classification of road networks. Such an approach avoids the question of isolating relevant features.
-However, as we aim at calibrating generative models, we need to have interpretable measures.
+However, as we aim at calibrating generative models, our quantification will make more sense with interpretable measures.
 %devrait on justifier pourquoi on a besoin de mesures interprétables ???
+%. je pense, en reaction a la tendance deep learning etc ? (mais c'est peut etre pas pertinent en effet)
 \cite{boeing2018measuring} proposes an extensive review of existing measures from a large extent of disciplines, their implications for planning and design, and the relation with urban complexity. \cite{webster1995urban} uses image processing techniques such as contrast or Fourier analysis, to extract synthetic descriptions of urban areas from satellite imaging. \cite{fumega2014identification} provide a typology of cities in relation with energy consumption in the perspective of climate change. \cite{rode2014cities} relate indicators of urban form with residential heat-energy demand. Other complexity-related approaches such as fractal dimensions have been introduced as for example by \cite{batty1987fractal}.
 
 
 
 In practice, we use a variety of indicators capturing different aspects, each being detailed below. We consider the local urban space as a square grid of width $\sqrt{N}$ with cells $1 \leq i \leq N$, and an urban configuration is a binary function $s_i \in \{0;1\}$ on these cells. For the computation of indicators, we consider underlying complementary networks, the building network $B$ defined as nodes in centroids of occupied cells and links between two occupied direct neighbor cells (one cell unit of distance between centroids), and the free space network $\bar{B}$ defined similarly on empty cells. This raster representation is convenient as compatible with the various types of indicators and generators as described below. We will consider $\sqrt{N}=50$ in the following, and real windows of width $500m$.
-% TODO justify the raster configuration (wouldnt be more logical to have vector generators at this scale ? discuss on "patches" : we do not care about even smaller details in buildings (as architects could do), but on the spatial distribution of free/occupied space at the granularity of patches. consistent with morpho indicators as they are computed, specifically for morpho math.
+%  justify the raster configuration (wouldnt be more logical to have vector generators at this scale ? discuss on "patches" : we do not care about even smaller details in buildings (as architects could do), but on the spatial distribution of free/occupied space at the granularity of patches. consistent with morpho indicators as they are computed, specifically for morpho math.
 
 \subsubsection{Basic indicators}
 % building area, density, moran, average distance, number of buildings (components), average building area
-Simple descriptive indicators considered are (i) the total building density $A = \frac{1}{N}\cdot \sum_i s_i$; (ii) the number of buildings given by the number of connected components of $B$; (iii) the average building area, i.e. the average size of $B$ connected components; (iv) Moran index
+Simple descriptive indicators considered are (i) the total building density $A = \frac{1}{N}\cdot \sum_i s_i$; (ii) the number of buildings given by the number of connected components of $B$; (iii) the average building area, i.e. the average size of $B$ connected components; (iv) Moran index capturing spatial autocorrelation (see \cite{raimbault2018calibration} for its definition in a similar setting), with a simple inverse distance weight function; (v) average distance between non-empty points (which also captures a level of concentration).
 
 
-\subsubsection{Network indicator}
+\subsubsection{Network indicators}
 % avg detour, average component area
+
+We also use indicators computed with the underlying networks: the average detour computed in the free space network $\bar{B}$, computed by randomly sampling 50 pairs of points in a connected component of $\bar{B}$ and computing the ratio between the network distance and the euclidian distance $d_{\bar{B}}/d_E$. This measures captures in a way the sinuosity of streets from a mobility viewpoint. We also consider the average size of open connected areas as the average size of the connected components of $\bar{B}$.
 
 
 \subsubsection{Mathematical morphology indicators}
 % dilation steps, erosion steps
 % closing / opening not included - would require profile = f(kernel size)
+
+Finally, indicators inspired from the field of mathematical morphology \citep{serra1983image} have already been applied to the quantification of urban form as for example by \cite{pesaresi2003recognizing}.
 
 
 
@@ -212,14 +219,15 @@ The most simple ``realistic'' generator is similar to procedural modeling or mar
 
 \subsubsection{Kernel mixture generator}
 
-Kernel mixture are a classical way to represent the spatial distribution of population density in an urban area \citep{anas1998urban} (see Fig.~\ref{fig:mixture}). They remain relevant at our scale, as they can be interpreted as a superposition of ``density hotspots'', as can the planning or the self-organization of a district can be. Given a number of centers $N_K$, $\vec{x}_{1\leq j \leq N_K}$ random position are drawn in the grid, at which kernels are applied, such that $s_i = \mathbbm{1}_{d_i \geq \theta_K}$ where the density $d_i$ for the point at position $\vec{x}_i$ is given by
+Kernel mixture are a classical way to represent the spatial distribution of population density in an urban area \citep{anas1998urban} (see Fig.~\ref{fig:mixture}). They remain relevant at our scale, as they can be interpreted as a superposition of ``density hotspots'', as can the planning or the self-organization of a district can be. Given a number of centers $N_K$, $\vec{x}_{1\leq j \leq N_K}$ random position are drawn in the grid, at which kernels are applied, such that $s_i = \mathbbm{1}_{d_i \geq \theta_K}$ where the density $d_i$ for the point at position $\vec{y}_i$ is given by
 \begin{equation}
-    d_i = \frac{1}{N_K}\cdot \sum_j \exp{\left(-\norm{\vec{x}_j - \vec{x}_i}/d_K\right)} 
+    d_i = \frac{1}{N_K}\cdot \sum_j \exp{\left(-\norm{\vec{x}_j - \vec{y}_i}/d_K\right)} 
 \end{equation}
 where $d_K$ is a range parameter giving the extent of kernels.
 % je ne suis pas convaincu par la formule : il y a un truc que j'ai raté ou il manque un vecteur
 % si les x_i correspondent aux posistion des centres (hotspots), alors on ne calcule les densités que sur les hotspots et il nous manque la possibilité de calculer les densités pour les autres points. On aurait pas besoin de 2 vecteurs ? x_i => les centres, y_i => l'ensemble des points ?
 % Dans le papier d'Anas il triche un peu : il utilise x_ij (mn dans le papier) pour la distance entre le point i et le centre j...
+%. -> oui c'est ca, cetait pas les memes xi en effet cetait la coordone du point ou calculé ; renomme en yi comme tu suggerais
 
 \subsubsection{Network percolation model}
 
@@ -294,7 +302,7 @@ We sample $N=72,000$ points into polygons corresponding to urban areas, first by
 \end{figure}
 %%%%%%%%%%%%%%
 
-After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales, as the first principal component captures 70.3\% of variance, the second a cumulated proportion of 85.9\% and the third 92.8\%. The order of magnitude are similar to the ones found by \cite{Schwarz201029} for example.
+After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales, as the first principal component on normalized indicators captures 70.3\% of variance, the second a cumulated proportion of 85.9\% and the third 92.8\%. The order of magnitude are similar to the ones found by \cite{Schwarz201029} for example.
 
 
 We can produce a typology of sampled urban areas through these measures.
