@@ -301,10 +301,28 @@ We sample $N=72,000$ points into polygons corresponding to urban areas, first by
 
 After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales, as the first principal component on normalized indicators captures 70.3\% of variance, the second a cumulated proportion of 85.9\% and the third 92.8\%. The order of magnitude are similar to the ones found by \cite{Schwarz201029} for example.
 
-We obtain a broad variety of forms, measures such as the Moran index 
 
-We can produce a typology of sampled urban areas through these measures.
-% TODO typology of urban areas ?
+
+%     moran          avgDistance        density         components      avgDetour        avgBlockArea  
+% Min.   :0.01881   Min.   :0.2120   Min.   :0.0504   Min.   :  7.0   Min.   : 0.1165   Min.   :  4.0  
+% 1st Qu.:0.07658   1st Qu.:0.6630   1st Qu.:0.0984   1st Qu.: 60.0   1st Qu.: 4.6543   1st Qu.: 10.0  
+% Median :0.10421   Median :0.8022   Median :0.1860   Median :109.0   Median : 6.9233   Median : 12.0  
+% Mean   :0.11659   Mean   :0.7586   Mean   :0.2193   Mean   :126.9   Mean   : 7.7544   Mean   : 14.8  
+ %3rd Qu.:0.14063   3rd Qu.:0.8870   3rd Qu.:0.3120   3rd Qu.:184.0   3rd Qu.:10.1821   3rd Qu.: 16.0  
+% Max.   :0.93934   Max.   :1.1405   Max.   :0.7980   Max.   :413.0   Max.   :26.3172   Max.   :143.0  
+% avgComponentArea fullDilationSteps fullErosionSteps
+% Min.   :  5.00   Min.   : 3        Min.   : 1.000  
+% 1st Qu.: 30.00   1st Qu.:16        1st Qu.: 3.000  
+% Median : 54.00   Median :26        Median : 4.000  
+% Mean   : 60.32   Mean   :28        Mean   : 4.049  
+% 3rd Qu.: 86.00   3rd Qu.:38        3rd Qu.: 5.000  
+% Max.   :183.00   Max.   :80        Max.   :21.000  
+
+
+We obtain a broad variety of forms, measures such as the Moran index varying between 0.02 (small disparate settlements) to 0.93 (one huge block), with a median at 0.10 (several medium size buildings). Similarly, the number of dilation steps varies from 3 (narrow streets only) to 80 (mostly open spaces) with a median at 26. The mean density is 0.21, what means that around 21\% of the soil is covered with building in average in the space we sampled, confirming that the most of urban areas are not dense contrary to the highly dense centers which are a minority.
+
+We can also consider the distribution of these measures within sampled urban areas.
+
 
 %%%%%%%%%%%%%%
 \begin{figure}
