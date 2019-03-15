@@ -228,7 +228,7 @@ where $d_K$ is a range parameter giving the extent of kernels.
 
 \subsubsection{Network percolation model}
 
-The last generator we used is based on network percolation, in the spirit of capturing the constraints imposed by flows traversing a given urban area (see Fig.~\ref{fig:percolation}). While the two previous generator were based on building processes, this one relies on streets, and thus on processes linked to transportation. The idea is to link a fixed number $N_P$ of border points, which can be understood as entrances/exits of the area. Starting with a grid network without links and nodes at a regular spatial sampling (fixed with a step of 5 units in our case), an iterative procedure (i) draws a random number and add a random link at an empty potential link if it is smaller than a parameter called the percolation probability $p_P$; (ii) computes the largest connected component of the network and the number of nodes of this component on the boundary of the world; (iii) stops if this number is equal to the parameter $N_P$. Cells not covered by the resulting giant component are then occupied, at the exception of cells within a neighborhood $L_P$ of a link of the giant component. This way, this component can be understood as a circulating area linking $N_P$ entrances and exits, with a constraint on width through $L_P$.
+The last generator we used is based on network percolation, in the spirit of capturing the constraints imposed by flows traversing a given urban area (see Fig.~\ref{fig:percolation}). While the two previous generator were based on building processes, this one relies on streets, and thus on processes linked to transportation. The idea is to link a fixed number $N_P$ of border points, which can be understood as entrances/exits of the area. Starting with a grid network without links and nodes at a regular spatial sampling (fixed with a step of 5 units in our case), an iterative procedure (i) draws a random number and adds a random link at an empty potential link if it is smaller than a parameter called the percolation probability $p_P$; (ii) computes the largest connected component of the network and the number of nodes of this component on the boundary of the world; (iii) stops if this number is equal to the parameter $N_P$. Cells not covered by the resulting giant component are then occupied, at the exception of cells within a neighborhood $L_P$ of a link of the giant component. This way, this component can be understood as a circulating area linking $N_P$ entrances and exits, with a constraint on width through $L_P$.
 
 
 Note that our generators will be ``fairly compared'' in terms of calibration, as they have the same number of parameters (although we do not introduce any information criteria that would yield the same penalization for overfitting).
@@ -306,6 +306,66 @@ We obtain a broad variety of forms, measures such as the Moran index
 We can produce a typology of sampled urban areas through these measures.
 % TODO typology of urban areas ?
 
+%%%%%%%%%%%%%%
+\begin{figure}
+  \centering
+  \rotatebox{90}{Class 1}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/1/osm_2.43416877400257_48.5494220403648_1}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/1/osm_3.20479601880545_50.1572174642354_1}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/1/osm_6.03454192624923_43.1438923676911_1}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/1/osm_7.76412991205779_47.6437664789465_1}.png}
+  \end{subfigure}\\
+  \rotatebox{90}{Class 2}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/2/osm_4.73115258198923_45.9763617017002_2}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/2/osm_4.92601740592234E-5_50.7945845258906_2}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/2/osm_8.76440233864255_50.3459471560717_2}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/2/osm_10.6351277289413_51.1689134935896_2}.png}
+  \end{subfigure}\\
+  \rotatebox{90}{Class 3}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/3/osm_2.78910884212325_50.5481512216399_3}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/3/osm_20.0294237103859_51.5168560281418_3}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/3/osm_5.55350495469112_51.4926898192205_3}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/3/osm_23.8025598321731_54.950616933903_3}.png}
+  \end{subfigure}\\
+  \rotatebox{90}{Class 4}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/4/osm_5.28978808584814_52.0605158929046_4}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/4/osm_6.11373040780706_50.9165373258647_4}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/4/osm_8.35334588815557_49.530653800312_4}.png}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.1\textwidth}
+    \includegraphics[width=\textwidth]{{osm/4/osm_12.4396942996003_50.983284784414_4}.png}
+  \end{subfigure}\\
+  \caption{Typology applied to OpenStreetMap samples.}
+  % TODO should provide parameters here
+  \label{fig:osm_types}
+\end{figure}
+%%%%%%%%%%%%%%
 
 % figure not needed : existence of clear distinctions (diversity index) and correlation with coordinates is enough
 %%%%%%%%%%%%%%
@@ -357,7 +417,7 @@ First of all, we focused on the built environment but neglected transportation i
 Taking into account multiple dimensions of the urban system is an important extension and hybrid models such as co-evolution models \citep{raimbault2014hybrid} should be investigated.
 
 Furthermore, we tested the complementarity of generators only in a static way. Adaptive and dynamic generators, combining processes of different nature within the same model with an endogenous switching or combination, would be an important direction to better understand urban morphogenesis.
-In the same context, the generators compared here had all the same number of parameters, but richer generators implying different numbers would require the use of information criterions to avoid overfitting, what however remains an unsolved issue for such generative simulation models \citep{piou2009proposing}.
+In the same context, the generators compared here had all the same number of parameters, but richer generators implying different numbers would require the use of information criterions to avoid overfitting, which, however, remains an unsolved issue for such generative simulation models \citep{piou2009proposing}.
 
 Finally, as extensively reviewed above, the way to quantify urban form strongly depends on the scale considered. A more integrative understanding of it would require multi-scale approaches able to relate these different definition and measures within a single multi-scalar framework.
 
