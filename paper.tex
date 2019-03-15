@@ -95,7 +95,7 @@ The study of forms of the built environment, and more precisely of the urban env
 Establishing typologies of urban morphologies, and understanding their link with underlying urban growth processes, is nowadays a crucial issue for sustainability as a large majority of the world population live in cities and energy consumption is closely related to urban form through e.g. mobility patterns and automobile dependance \citep{newman2000sustainable}.
 
 
-Although there is neither a unified definition of urban form, nor unified generative models and quantitative indicators to measure it, several approaches are close to the spirit of artificial life and generative social science.
+Although there is neither a unified definition of urban form, nor unified generative models and quantitative indicators to measure it, several approaches are close to the spirit of artificial life and generative social science~\citep{bonabeau1997classical,epstein1999agent}.
 Procedural modeling \citep{watson2008procedural} aims at generating realistic cities, but is mostly focused on the visual impression given and does not consider realistic generative processes.
 It is furthermore developed largely at larger scales than the one of the district \citep{Parish:2001:PMC:383259.383292}.
 Approaches linked to urban planning have focused on the spatial distribution of land-use, at multiple scales \citep{liu2017future}, and proposed cellular automata models for urban sprawl, generally at the scale of the metropolitan area \citep{herold2003spatiotemporal}.
@@ -132,7 +132,7 @@ The quantification of urban form is in itself covered by a vast literature.
 Recent work have proposed to apply deep learning techniques directly on vector data, such as \cite{2017arXiv170902939M} does, for a worldwide classification of road networks. Such an approach avoids the question of isolating relevant features.
 However, as we aim at calibrating generative models, we need to have interpretable measures.
 %devrait on justifier pourquoi on a besoin de mesures interprétables ???
-\cite{boeing2018measuring} proposes an extensive review of existing measures from a large extent of disciplines, their implications for planning and design, and the relation with urban complexity. \citep{webster1995urban} uses image processing techniques such as contrast or Fourier analysis, to extract synthetic descriptions of urban areas from satellite imaging. \cite{fumega2014identification} provides a typology of cities in relation with energy consumption in the perspective of climate change. \cite{rode2014cities} relates indicators of urban form with residential heat-energy demand. Other complexity-related approaches such as fractal dimensions have been introduced as for example by \cite{batty1987fractal}.
+\cite{boeing2018measuring} proposes an extensive review of existing measures from a large extent of disciplines, their implications for planning and design, and the relation with urban complexity. \cite{webster1995urban} uses image processing techniques such as contrast or Fourier analysis, to extract synthetic descriptions of urban areas from satellite imaging. \cite{fumega2014identification} provide a typology of cities in relation with energy consumption in the perspective of climate change. \cite{rode2014cities} relate indicators of urban form with residential heat-energy demand. Other complexity-related approaches such as fractal dimensions have been introduced as for example by \cite{batty1987fractal}.
 
 
 
@@ -195,7 +195,7 @@ We detail now the generative model introduced. A null model is also considered, 
         \caption{Random}
         \label{fig:random}
     \end{subfigure}
-    \caption{Example of patterns produced by the synthetic generators.}
+    \caption{Examples of patterns produced by the synthetic generators.}
     % TODO should provide parameters here
     \label{fig:generators}
 \end{figure}
@@ -287,7 +287,7 @@ We sample $N=72,000$ points into polygons corresponding to urban areas, first by
     \begin{subfigure}[b]{0.1\textwidth}
         \includegraphics[width=\textwidth]{{osm_(10.529303821177011,57.458935658684915)}.png}
     \end{subfigure}
-    \caption{Example of patterns extracted from OpenStreetMap.}
+    \caption{Samples extracted from OpenStreetMap.}
     % TODO should provide parameters here
     \label{fig:osm}
 \end{figure}
