@@ -335,9 +335,7 @@ After removing the empty areas and areas with a too low (lower than 0.05) or a t
 We obtain a broad variety of forms, measures such as the Moran index varying between 0.02 (small disparate settlements) to 0.93 (one huge block), with a median at 0.10 (several medium size buildings). Similarly, the number of dilation steps varies from 3 (narrow streets only) to 80 (mostly open spaces) with a median at 26. The mean density is 0.21, what means that around 21\% of the soil is covered with building in average in the space we sampled, confirming that the most of urban areas are not dense contrary to the highly dense centers which are a minority.
 
 
-To obtain typical representative points, we proceed to an unsupervised clustering on the two first principal components of these points. Using a k-means algorithm (5000 stochastic repetitions), varying the number of clusters shows an endogenous transition in the within-cluster variance proportion, suggesting to take $k=4$.
-Examples within the classes are shown in Fig.~\ref{fig:osm_types}. %TODO discuss a bit
-The centroids will be used as typical objectives for model calibration.
+To obtain typical representative points, we proceed to an unsupervised clustering on the two first principal components of these points. Using a k-means algorithm (5000 stochastic repetitions), varying the number of clusters shows an endogenous transition in the within-cluster variance proportion, suggesting to take $k=4$. Examples within the classes are shown and commented in Fig.~\ref{fig:osm_types}. The centroids will be used as typical objectives for model calibration.
 
 
 We can also consider the distribution of these measures within sampled urban areas. Keeping the areas with more than 10 sample points, we obtain 219 areas, for which we can compute the proportion of points within each morphological cluster. An Herfindhal diversity index on these proportions $p_k \in \left[0,1\right]$ computed as $h = 1 - \sum_k p_k^2$ ranges between 0.31 and 0.75 with an average of 0.63, suggesting very different profiles of urban areas. A chi-squared test of 10 levels of this diversity with the country is not significant (p=0.7), but the diversity index negatively correlates ($\rho = -0.11$, Fisher 95\% confidence interval $\left[-0.24,0.02\right]$) with longitude, meaning that Western cities are more diverse than Eastern cities, and more slightly with latitude ($\rho = 0.08 \left[-0.04,0.21\right]$).
@@ -398,7 +396,7 @@ We can also consider the distribution of these measures within sampled urban are
   \begin{subfigure}[b]{0.1\textwidth}
     \includegraphics[width=\textwidth]{{osm/4/osm_12.4396942996003_50.983284784414_4}.png}
   \end{subfigure}\\
-  \caption{Typology applied to OpenStreetMap samples.}
+  \caption{Typology applied to OpenStreetMap samples. The first class correspond mostly to a high density of linear buildings, recalling modern urbanism projects; the second disparate large buildings that can corresponds to industrials buildings in the outskirt of cities; the third disparate small buildings closer to periurban settlements; the fourth are denser and more complicated patterns evoking historical urban centers.}
   % provide coordinates ?
   \label{fig:osm_types}
 \end{figure}
@@ -420,14 +418,15 @@ We can also consider the distribution of these measures within sampled urban are
 %%%%%%%%%%%
 \subsection{Model simulation and calibration}
 
-A first simulation experiment provides an insight into the patterns produced by the different generators in the morphological space. We sample the parameter space using a Latin Hypercube Sampling, with 10000 points for each generator respectively, and with 100 stochastic repetitions for each parameter point. The corresponding point cloud is shown in a reduced dimension in Fig.~\ref{fig:lhs}.
-Regarding the stochastic variability of generators, % TODO sharpe ratios
+A simulation experiment provides an insight into the patterns produced by the different generators in the morphological space. We sample the parameter space using a Latin Hypercube Sampling, with 10000 points for each generator respectively, and with 100 stochastic repetitions for each parameter point. 
+
+Regarding the stochastic variability of generators, we compute for each indicator and each parameter point the sharpe ratios on repetitions, defined as the ratio between the estimated average and the estimated standard deviation. The indicators with the lowest values (high values indicate a low influence of stochastic fluctuations in comparison to variations due to parameters) are Moran index with a minimum of 0.22 and a median of 4.8, and the average detour with a minimum of 0.7 and a median of 5.2 (what could have been expected for this one as it is stochastically estimated). All other indicators have minimal sharpe ratios above 1.5 and medians above 5.4, meaning that models are overall not much sensitive to stochastic fluctuations. This confirms that considering single realisations as representing one parameter set remains reasonable.
 
 
 
 %%%%%%%%%%%%%%
 \begin{figure*}
-\vspace{-1.5cm}
+\vspace{-1.8cm}
     \centering
     (1)
     \framebox{\includegraphics[width=0.18\linewidth]{closest1_blocks}}
@@ -442,11 +441,13 @@ Regarding the stochastic variability of generators, % TODO sharpe ratios
     \framebox{\includegraphics[width=0.18\linewidth]{closest4_percolation}}
     \framebox{\includegraphics[width=0.18\linewidth]{closest4_real}}\\
     \includegraphics[width=\linewidth]{lhscalib_projrealpcs}
-    \caption{Comparison of real morphologies with patterns produced by the synthetic generators. All points are projected into the first two components computed on the real measures only. Points in dark blue correspond to real configurations. The type of generator is given by the color in legend. Dark circle correspond to the centroids of clusters on which the calibration is done, their number giving the corresponding configurations shown above. For each, we successively show the best synthetic configuration ((1) block generator, (2) exponential mixture generator, (3) block generator, (4) percolation generator), and the real configuration from OSM.}
+    \caption{Comparison of real morphologies with patterns produced by the synthetic generators. All points are projected into the first two components computed on the real measures only. Points in dark blue correspond to real configurations. The type of generator is given by the color in legend. Dark circle correspond to the centroids of clusters on which the calibration is done, their number giving the corresponding configurations shown above. For each, we successively show the best synthetic configuration ((1) block generator with $N_B=12,m_B=5,M_B=12$, (2) exponential mixture generator with $N_K=6,d_K=3.8,\theta_K=0.42$, (3) block generator with $N_B=11,m_B=1,M_B=14$, (4) percolation generator with $p_P=0.35,N_P=5,L_P=3.7$), and the real configuration from OSM beside each.}
     \label{fig:lhs}
 \end{figure*}
 %%%%%%%%%%%%%%
 
+We turn now to the comparison of generated configurations with real configurations. We work in the projected two dimensional space of the two first principal components of real points described above, in order to capture the maximum of variability in the real point cloud rather than in the simulated one. Note that working in the full indicator space makes no sense given the effective dimensions obtained (the simulated point cloud captures 93\% of variance at its third principal component, which is just a bit more than the real point cloud).
+The point cloud of simulated and real points is shown in Fig.~\ref{fig:lhs}. We do not plot ensemble averages but all simulated points, as discussed above regarding the low influence of stochasticity.
 
 
 % les calibrations sont ULTRA mediocres, j'arrive pas a savoir pourquoi - pourtant ya beaucoup de runs - peut etre les islands trop courtes. on va surement devoir s'en resumer a un tableau de la distance de chaque generateur a chaque centroide ; avec l'info de plus de l'aggregation eventuellement - avec la sd.
