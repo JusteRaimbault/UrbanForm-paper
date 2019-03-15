@@ -157,13 +157,10 @@ We also use indicators computed with the underlying networks: the average detour
 % dilation steps, erosion steps
 % closing / opening not included - would require profile = f(kernel size)
 
-Finally, indicators inspired from the field of mathematical morphology \citep{serra1983image} have already been applied to the quantification of urban form as for example by \cite{pesaresi2003recognizing}.
+Finally, indicators inspired from the field of mathematical morphology \citep{serra1983image} have already been applied to the quantification of urban form as for example by \cite{pesaresi2003recognizing}. Mostly used in image processing, these techniques proceed to the convolution of the image with a filter for example to simplify some morphological detail, what can be interpreted as a kind of spatial smoothing. We use here an indicator based on erosion with a filter of smallest size, which here removes points which 4 closest neighbors are not also occupied. We consider the total number of steps to fully erode the image, which is linked to building size. Similarly, using the operation of dilation, which in the contrary occupies points with at least one occupied neighbor, we consider the total number of dilation steps to fully fill the grid. This captures the size of open spaces. We do not consider indicators linked to opening and closing operations, as these would require more complex filters and for example their behavior as a function of kernel size.
 
 
-
-
-
-
+Combining these morphological indicators, we have a total number of 9 indicators that can be computed on any binary grid, and that we will use in the following to compare real grids with generated grids of the same size.
 
 
 
@@ -304,6 +301,7 @@ We sample $N=72,000$ points into polygons corresponding to urban areas, first by
 
 After removing the empty areas and areas with a too low (lower than 0.05) or a too high (higher than 0.8) density, we end with $17,612$ real points on which the morphological measures are computed. The effective dimension is relatively low, echoing literature on urban form at other scales, as the first principal component on normalized indicators captures 70.3\% of variance, the second a cumulated proportion of 85.9\% and the third 92.8\%. The order of magnitude are similar to the ones found by \cite{Schwarz201029} for example.
 
+We obtain a broad variety of forms, measures such as the Moran index 
 
 We can produce a typology of sampled urban areas through these measures.
 % TODO typology of urban areas ?
