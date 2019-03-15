@@ -98,12 +98,9 @@ Establishing typologies of urban morphologies, and understanding their link with
 
 Although there is neither a unified definition of urban form, nor unified generative models and quantitative indicators to measure it, several approaches are close to the spirit of artificial life and generative social science~\citep{bonabeau1997classical,epstein1999agent}.
 Procedural modeling \citep{watson2008procedural} aims at generating realistic cities, but is mostly focused on the visual impression given and does not consider realistic generative processes.
-It is furthermore developed largely at larger scales than the one of the district \citep{Parish:2001:PMC:383259.383292}.
-Approaches linked to urban planning have focused on the spatial distribution of land-use, at multiple scales \citep{liu2017future}, and proposed cellular automata models for urban sprawl, generally at the scale of the metropolitan area \citep{herold2003spatiotemporal}.
+It is furthermore developed largely at larger scales than the one of the district \citep{Parish:2001:PMC:383259.383292}. \cite{merrell2010computer} generates in that context plans for interior of buildings, whereas \cite{cruz2017generation} uses a cellular automaton model for building morphogenesis.
+Approaches linked to urban planning have focused on the spatial distribution of land-use, at multiple resolutions \citep{liu2017future}, and proposed cellular automata models for urban sprawl, generally at the scale of the metropolitan area \citep{herold2003spatiotemporal}. For example, \cite{horner2007multi} proposes a link between urban form based on land-use and commuting.
 
-% rq : should not cite too much - paper size limit
-%\cite{merrell2010computer} internal building layouts generation
-%\cite{horner2007multi} multi-scale - link with commuting - based on land-use
 
 Urban form can furthermore be characterized considering different components of the urban system, such as building themselves as in several examples given before, but also for example transportation networks such as road networks \citep{ye2014quantitative}. To what extent these layers are complementary remains an open question, despite a few investigations coupling the two such as \cite{raimbault2018urban} suggesting indeed complementary dimensions. Regarding the geometrical properties of building layouts at the scale of a district, that we denote to simplify as urban form at a large scale, systematic characterizations and generative models remains rather rare. \cite{achibet2014model} for example describes a model of co-evolution of building layout and road network.
 
@@ -114,9 +111,6 @@ The approach taken here is similar to the one taken by \cite{raimbault2018calibr
 We consider real urban configurations at the scale of the district (fixed spatial window of 500m), compute their morphological characteristics, and use these measures to calibrate different generative models of urban layouts at the same scale.
 Our contribution is twofold: (i) we synthesize a set of indicators relevant at this scale, and compute them on a large sample of real urban configurations in European urban areas; (ii) we provide three different generative models complementary in the type of processes taken into account, and calibrate these models on the real morphological measures. We show therein the complementarity of the different processes to produce the variety of real urban forms considered.
 This is to the best of our knowledge the first time several generative models at this scale are systematically compared on a large number of real configurations through quantitative measures.
-% on drop le random ?
-% nope mais on peut pas vraiment le considerer comme un generateur, disons un modèle nul
-% ok, je vais ajuster le commentaire des figures
 
 The rest of this article is structured as follows.
 First, we present the methods used in our work, including the measures allowing the comparison of urban forms, the proposed generative models and the method used to retrieve real urban configurations.
@@ -447,13 +441,28 @@ Regarding the stochastic variability of generators, we compute for each indicato
 %%%%%%%%%%%%%%
 
 We turn now to the comparison of generated configurations with real configurations. We work in the projected two dimensional space of the two first principal components of real points described above, in order to capture the maximum of variability in the real point cloud rather than in the simulated one. Note that working in the full indicator space makes no sense given the effective dimensions obtained (the simulated point cloud captures 93\% of variance at its third principal component, which is just a bit more than the real point cloud).
-The point cloud of simulated and real points is shown in Fig.~\ref{fig:lhs}. We do not plot ensemble averages but all simulated points, as discussed above regarding the low influence of stochasticity.
+
+
+The point cloud of simulated and real points is shown in Fig.~\ref{fig:lhs}. We do not plot ensemble averages but all simulated points, as discussed above regarding the low influence of stochasticity. First of all, we observe that the null model consisting in random grids is far from all other points (except a tiny fraction of the percolation generator in turquoise) and in a way describes a boundary in the projected indicator space. This control confirms the relevance of projected indicators and of their comparison. 
+Then, as expected since generators were conceived to capture different generative processes of the urban form, the point clouds of each generator are rather disjoint in the morphological space. The percolation generator produces separate clouds which correspond to different value of the link width $L_P$ parameter, and these are disjoint from the two other generators. The exponential mixture (green) and block (red) generators do overlap in a central area, but also have their own morphological ``exclusion zone'', where the forms can not be generated by other generators considered here.
+
+When looking at the real point cloud, we see that most of it is covered by some generated points, and that generators are complementary to approach all covered points. This is an important result in line with the targeted complementarity of generative processes, and advocates for multi-modeling in urban morphogenesis. Interestingly, there is an area not covered, corresponding to the transition between the percolation generator (narrow streets) and the block generator.
+
+For each centroid of the clusters in the real point cloud described above, that can be considered as a typical calibration objective, we provide example of the closest real configuration and the closest simulated one. Visually, forms are rather satisfying, at the exception of the percolation generator fitting a complicated urban center. Indeed, this centroid (number 4) is at the boundary of the percolation point cloud, and the real point cloud is more difficultly captured in this area compared to the block and mixture generators.
 
 
 % les calibrations sont ULTRA mediocres, j'arrive pas a savoir pourquoi - pourtant ya beaucoup de runs - peut etre les islands trop courtes. on va surement devoir s'en resumer a un tableau de la distance de chaque generateur a chaque centroide ; avec l'info de plus de l'aggregation eventuellement - avec la sd.
 %%%%%%%%%%%
 %\subsection{Calibration with Genetic algorithms}
 %The mapping between generator parameters and the morphological space being highly non-linear, we are not ensured that the proximities observed above fully correspond to the potentialities of generators to generate real forms. Therefore, we proceed here to a calibration of these models.
+
+
+
+
+To quantify the level of calibration of each generator regarding each centroid, and in average regarding stochastic repetitions, we provide in Table~
+
+
+
 
 
 
