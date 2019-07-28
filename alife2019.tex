@@ -84,7 +84,10 @@ Monday 29th July, 2019}
 
 \sframe{Morphogenesis of Urban Systems}{
 
-% + Urban science building !
+% - The conference venue seems to be a perfect example to introduce issues linked to urban systems
+% - First it features the "Urban Science Building", what is a rather new concept (cf Mike Batty book), although ideas and contributions in that field already date back in the several related disciplines.
+% - Secondly, when looking at the website of the project, several keywords could be typical of ALife abstracts : innovation, sustainiblity, biological metaphor, regenration.
+% - It is therefore natural to ask the question to what extent are cities alive. Naturally they are not living organism, but are highly complex, and imply complex interplay between the form and the function,  i.e. morphogenesis. 
 
 \begin{center}
 	\includegraphics[width=\textwidth]{figuresslides/helix.png}	
@@ -100,10 +103,17 @@ $\rightarrow$ Are cities alive? Which morphogenetic processes?
 
 % TODO idea next year : all feature of urban systems making them candidate for alife ? (more than thought :cf innovatino etc. we come back to coevol and morphogenesis ? possibly - a bit far ?)
 
+% TODO finish paper morphogenesis
+
+
 }
 
 
 \sframe{Urban Systems and Artificial Life}{
+
+% - When considering urban systems, several scales and objects can be the focus of models.
+% - for example on the left, urban sprawl can be related to the extension of road networks, with simple parameters already producing a large varieties of urban dynamical regimes
+% - also, in relation with morphogenesis, it can be shown that reaction-diffusion processes for population distribution reproduce existing settelements at an intermediate scale with a relatively high accuracy.
 
 \begin{columns}
 
@@ -166,6 +176,9 @@ Raimbault, J. (2019). An urban morphogenesis model capturing interactions betwee
 
 \sframe{Urban Systems and Artificial Life}{
 
+% - furthermore, other scales can be explored, as on the left for a co-evolution model between cities and transportation networks at the scale of the system of cities.
+% - similarly, other dimensions, such as transportation networks themselves, can be the subject of urban morphogenesis models.
+
 \begin{columns}
 
 	\begin{column}{0.5\textwidth}
@@ -224,6 +237,11 @@ Raimbault, J. (2019). An urban morphogenesis model capturing interactions betwee
 %	\item introduction of morphological indicators
 %	\item calibration on sampled layouts from OpenStreetMap
 
+
+% - We propose in this contribution to follow these ideas and to investigate the emergence of the urban form from the bottom-up.
+% - Large geographical scales remain not that much investigated by these fields (alife and quant geo - they are by urban design, architecture, procedural modeling)
+% - Similarly, sets of indicators to capture features of urban form are lacking in the literature.
+
 $\rightarrow$ Emergence of the urban form from local processes
 
 \medskip
@@ -252,6 +270,11 @@ $\rightarrow$ Quantitative indicators to measure urban form
 
 
 \sframe{Generating building layouts}{
+
+% - Following the very simplified narrative that cities are the historical superposition of very different building processes, in space and time, we propopse to investigate different types of processes
+% - the first one is just a distribution of building blocks, which has been typical to modern urbanism (folowing Le corbusier) - in the generator, blocks of random height and width are distributed at random
+% - it is then well known that kernel mixture are perfformant to reproduce population distributions. At large scales, we make the assumption that similare aggrgegatipon patterns shoudl happen, but as we deal with binary structures, we use thresholded exponential mixtures
+% - finally, we can also consider the flows within the city - in the case of a very dense urban center, we can assume that it was however constrained to allow a minimal quantity of flows to go through. Therefore, we use network percolation to produce "labyrinth-like" urban conifgurations (percolate a grid network until a fixed number of outputs are joined in a giant cluster).
 
 Complementary heuristics:
 
@@ -295,6 +318,14 @@ Complementary heuristics:
 % We also use indicators computed with the underlying networks: the average detour computed in the free space network $\bar{B}$, computed by randomly sampling 50 pairs of points in a connected component of $\bar{B}$ and computing the ratio between the network distance and the euclidian distance $d_{\bar{B}}/d_E$. This measures captures in a way the sinuosity of streets from a mobility viewpoint. We also consider the average size of open connected areas as the average size of the connected components of $\bar{B}$.
 % steps for dilation + steps for erosion
 
+% Then comes the issue of quantifying urban form.
+% again, the literature is very diverse and depends on disciplines and objectives.
+% we porpose a multi indicator set based on complementary assumptions and processes.
+% - first summary statistics of built environment distribution
+% - then spatial statistics capturing a level of agregation
+% - a network based detour index capturing a level of sinuosity
+% - mathemtaical morphology indicators are good proxies to capture the size of open spaces and buildings
+
 
 Urban form indicators for building layouts:
 
@@ -313,6 +344,8 @@ Urban form indicators for building layouts:
 
 \sframe{Generators}{
 
+% we show here examples of generated urban forms
+ 
 \vspace{-0.3cm}
 \begin{center}
 	\includegraphics[height=0.85\textheight]{figuresslides/spatialsens_examplegenerators.png}
