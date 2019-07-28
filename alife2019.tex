@@ -69,7 +69,7 @@ $^4$Univ. Paris-Est, LaSTIG STRUDEL, IGN, ENSG\\
 * juste.raimbault@polytechnique.edu
 }
 \date{Artificial Life 2019\\\bigskip
-Monday 29th, 2019}
+Monday 29th July, 2019}
 
 \begin{document}
 
@@ -94,9 +94,11 @@ Monday 29th, 2019}
 
 ``\textit{new innovation community, sustainable urban development, flourishing city, urban regeneration}''
 
-\smallskip
+\medskip
 
 $\rightarrow$ Are cities alive? Which morphogenetic processes?
+
+% TODO idea next year : all feature of urban systems making them candidate for alife ? (more than thought :cf innovatino etc. we come back to coevol and morphogenesis ? possibly - a bit far ?)
 
 }
 
@@ -107,25 +109,42 @@ $\rightarrow$ Are cities alive? Which morphogenetic processes?
 
 	\begin{column}{0.5\textwidth}
 	
+	\vspace{-0.5cm}
+	
+	\begin{center}
+	\includegraphics[width=0.8\textwidth]{figuresslides/intro_RBD_lattice.png}
+	\end{center}
+	
 	\medskip
 	
-	\includegraphics[width=0.55\textwidth,height=0.3\textheight]{figuresslides/intro_RBD_lattice.png}
-	
 	\footnotesize
-\textit{Hybrid urban morphogenesis \cite{raimbault2014hybrid}}
+\textit{Hybrid urban morphogenesis with simple rules for urban sprawl and road network evolution}
 	
+	\medskip
+	
+	\tiny
+
+	Raimbault, J., Banos, A., & Doursat, R. (2014). A Hybrid Network/Grid Model of Urban Morphogenesis and Optimization. In 4th International Conference on Complex Systems and Applications (pp. 51-60).	
+	
+	\nocite{raimbault2014hybrid}
 
 	\end{column}
 	\vrule{}
 	\begin{column}{0.5\textwidth}
 	
+	\vspace{-0.5cm}
 	\begin{center}
-	\includegraphics[width=0.5\textwidth]{figuresslides/density_Fig2}
+	\includegraphics[width=0.8\textwidth]{figuresslides/density_Fig2}
 	\end{center}
 	
-	\tiny
+	\medskip
+	\footnotesize
+	
+	\textit{Reaction-diffusion processes to reproduce territorial settlements at an intermediate scale}
 	
 	\medskip
+	
+	\tiny
 	
 Raimbault, J. (2018). Calibration of a density-based model of urban morphogenesis. PloS one, 13(9), e0203516.
 
@@ -147,25 +166,51 @@ Raimbault, J. (2019). An urban morphogenesis model capturing interactions betwee
 
 \sframe{Urban Systems and Artificial Life}{
 
+\begin{columns}
+
+	\begin{column}{0.5\textwidth}
+
 \begin{center}\includegraphics[height=0.47\textheight]{figuresslides/macrocoevol_example_virtual_0_tf.png}
 \end{center}
 
+	\medskip
+
 	\footnotesize
-	\textit{Cities-network co-evolution model explored on synthetic systems of cities} \cite{raimbault2019modeling}
+	\textit{Cities-network co-evolution model explored on synthetic systems of cities} 
 
-	\medskip
-	\hrule
-	\medskip
+\medskip
 
-	Model studied by~\cite{tero2010rules} : exploration and reinforcement by a slime mould searching for ressources
+\tiny
 
-\bigskip
+	Raimbault, J. (2019). Modeling the co-evolution of cities and networks. Forthcoming in Handbook of Cities and Networks, Rozenblat C., Niel Z., eds.
 
-\includegraphics[width=0.32\textwidth]{figuresslides/slimemould_tick1}
-\includegraphics[width=0.32\textwidth]{figuresslides/slimemould_tick20}\\
-\includegraphics[width=0.32\textwidth]{figuresslides/slimemould_tick101}
-\includegraphics[width=0.32\textwidth]{figuresslides/slimemould_reseauFinal}\\
+	\nocite{raimbault2019modeling}
 	
+
+	\end{column}
+	\vrule{}
+	\begin{column}{0.5\textwidth}
+
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{figuresslides/nwmorphogenesis.png}
+	\end{center}
+
+	\medskip
+
+	\footnotesize
+
+	\textit{Complementary heuristics to reproduce topological properties of transportation networks}	
+
+ 	\medskip
+	\tiny
+
+	Raimbault, J. (2018). Multi-modeling the morphogenesis of transportation networks. In Artificial Life 2018 Conference Proceedings (pp. 382-383).
+
+	\nocite{raimbault2018multi}
+
+	\end{column}
+
+\end{columns}	
 
 }
 
@@ -179,14 +224,25 @@ Raimbault, J. (2019). An urban morphogenesis model capturing interactions betwee
 %	\item introduction of morphological indicators
 %	\item calibration on sampled layouts from OpenStreetMap
 
-$\rightarrow$ emergence of the urban form from local processes
+$\rightarrow$ Emergence of the urban form from local processes
 
-$\rightarrow$ 
+\medskip
+
+$\rightarrow$ Particularity of large geographical scales (building layout morphogenesis)
+
+\medskip
+
+$\rightarrow$ Quantitative indicators to measure urban form
 
 
 \bigskip
+\bigskip
 
 \textbf{Research objective: } 
+
+\medskip
+
+\textit{Introduce simple generative models for urban configurations at the district scale; introduce a set of indicators to classify model outputs; investigate the potentiality of generative models to produce existing configurations.}
 
 }
 
@@ -203,9 +259,32 @@ Complementary heuristics:
 
 \begin{itemize}
 	\item random building blocks (modern urbanism)
-	\item random population kernels (preferential attachment)
+	\item thresholded kernel mixture (hybrid configurations / preferential attachment for population)
 	\item percolation of roads through a compact urban core (transportation flows)
 \end{itemize}
+
+\bigskip
+
+\begin{columns}
+	\begin{column}{0.31\textwidth}
+		
+		\includegraphics[width=\textwidth]{figuresslides/morpho_aulnay.png}
+	
+	\end{column}
+	\vrule{}
+	\begin{column}{0.33\textwidth}
+	
+		\includegraphics[width=\textwidth]{figuresslides/morpho_montdest.png}
+		
+	\end{column}
+	\vrule{}
+	\begin{column}{0.31\textwidth}
+		
+		\includegraphics[width=\textwidth]{figuresslides/morpho_marais.png}
+	
+	\end{column}
+\end{columns}
+}
 
 }
 
@@ -222,10 +301,10 @@ Urban form indicators for building layouts:
 \medskip
 
 \begin{itemize}
-	\item density, number of buildings, average area
-	\item Moran index and average distance on rasterized representation
-	\item average detour in the free space
-	\item mathematical morphology indicators (steps for erosion and dilation) \cite{serra1994morphological}
+	\item Density, number of buildings, average area
+	\item Moran index (spatial autocorrelation) and average distance on rasterized representation
+	\item Average detour in the free space
+	\item Mathematical morphology indicators (steps for erosion and dilation) \cite{serra1983image}
 \end{itemize}
 
 
@@ -234,35 +313,46 @@ Urban form indicators for building layouts:
 
 \sframe{Generators}{
 
-\textit{Examples for each generator}
-
-\medskip
-
+\vspace{-0.3cm}
 \begin{center}
 	\includegraphics[height=0.85\textheight]{figuresslides/spatialsens_examplegenerators.png}
 \end{center}
+
+\vspace{-0.2cm}
+
+\textit{Examples of urban forms for each generator (3 parameters each)}
 
 
 }
 
 \sframe{Real configurations}{
 
-\textit{Sampled districts from OpenStreetMap}
-
-%\medskip
-
+\vspace{-0.3cm}
 \begin{center}
-	\includegraphics[height=0.85\textheight]{figuresslides/spatialsens_exampleosm.png}
+	\includegraphics[height=0.82\textheight]{figuresslides/spatialsens_exampleosm.png}
 \end{center}
+
+\vspace{-0.2cm}
+
+\footnotesize
+
+\textit{Sampled districts from OpenStreetMap (72,000 real district sampled accross European functional urban areas \cite{bretagnolle2019following})}
 
 }
 
 
 \sframe{Classification of urban forms}{
 
+\vspace{-0.3cm}
 \begin{center}
-   \includegraphics[height=0.9\textheight]{figuresslides/spatialsens_osm_classification.png}
+   \includegraphics[height=0.82\textheight]{figuresslides/spatialsens_osm_classification.png}
 \end{center}
+
+\vspace{-0.2cm}
+
+\footnotesize
+
+\textit{Unsupervised classification of real morphologies (effective dimension: 85.9\% of variance at second PC)}
 
 }
 
@@ -270,20 +360,23 @@ Urban form indicators for building layouts:
 
 \sframe{Model calibration tool}{
 
-
-OpenMOLE software \url{https://next.openmole.org/}
+Models explored and calibrated with the OpenMOLE software~\cite{reuillon2013openmole}
 
 \centering
 
-\smallskip
+\bigskip
 
 \includegraphics[height=0.35\textheight]{figuresslides/openmole.png}
 
-\smallskip
+\bigskip
 
 \raggedright\justify
 
-\footnotesize \textit{OpenMOLE: (i) embed any model as a black box; (ii) transparent access to main High Performance Computing environments; (iii) model exploration and calibration methods.}
+\footnotesize \textit{OpenMOLE: (i) embeds any model as a black box; (ii) provides transparent access to main High Performance Computing environments; (iii) and to model exploration and calibration methods (sensitivity analysis, Design of Experiments, Genetic Algorithm calibration, Diversity Search).}
+
+\medskip
+
+\textbf{Free and Open Source, download at} \url{https://openmole.org/}
 
 }
 
@@ -292,28 +385,42 @@ OpenMOLE software \url{https://next.openmole.org/}
 
 \sframe{Calibrated forms}{
 
-\centering
-
+\begin{center}
 \includegraphics[width=\textwidth]{figuresslides/spatialsens_calib.png}
-
-}
-
-
-\sframe{Point cloud}{
-
-\begin{center}\includegraphics[height=0.9\textheight]{figuresslides/spatialsens_points.png}
 \end{center}
 
+\smallskip
+
+\textit{Example of close real and simulated configurations, after running the model for 10,000 random parameter points (LHS) for each generator, with 100 stochastic repetitions each}
+
 }
 
 
-\sframe{Calibration}{
+\sframe{Comparison of point clouds}{
+
+\vspace{-0.2cm}
+\begin{center}\includegraphics[height=0.8\textheight]{figuresslides/spatialsens_points.png}
+\end{center}
+
+\smallskip
+
+\vspace{-0.3cm}
+\footnotesize
+
+\textit{Projection of simulated and real cloud points in the real PC space}
+
+}
+
+
+\sframe{Calibration on classification centroids}{
 
 \includegraphics[width=\textwidth]{figuresslides/spatialsens_distanceclasses.png}
 
 \medskip
 
-\textit{Why not use calibration heuristics? Open question of fitting a point cloud; issue of projecting in a reduced dimension space}
+\textit{Euclidian distances in the projected space, aggregated on stochastic repetitions, for each class centroid and each generator}
+
+%\textit{Why not use calibration heuristics? Open question of fitting a point cloud; issue of projecting in a reduced dimension space}
 
 }
 
@@ -328,7 +435,40 @@ OpenMOLE software \url{https://next.openmole.org/}
 %In the same context, the generators compared here had all the same number of parameters, but richer generators implying different numbers would require the use of information criterions to avoid overfitting, which, however, remains an unsolved issue for such generative simulation models \citep{piou2009proposing}.
 %Finally, as extensively reviewed above, the way to quantify urban form strongly depends on the scale considered. A more integrative understanding of it would require multi-scale approaches able to relate these different definition and measures within a single multi-scalar framework.
 
+\justify
 
+\vspace{-1cm}
+
+\textbf{Extensions}
+
+\medskip
+
+$\rightarrow$ Apply more elaborated calibration procedures and e.g. diversity search.
+
+\smallskip
+
+$\rightarrow$ Dynamical calibration (issue of sparsity of dynamical urban data).
+
+\smallskip
+
+$\rightarrow$ Take into account possible varying generator parameter number (compensate for overfitting in simulation models \cite{piou2009proposing}).
+
+\bigskip
+\bigskip
+
+\textbf{Applications}
+
+\medskip
+
+$\rightarrow$ Link between urban form and sustainability measures: towards insights from generative models.
+
+\smallskip
+
+$\rightarrow$ Towards multi-scale and multi-dimensional models.
+
+\smallskip
+
+$\rightarrow$ Hybridation with more operational approaches \cite{brasebin2017apports}.
 
 
 }
@@ -336,14 +476,32 @@ OpenMOLE software \url{https://next.openmole.org/}
 
 \sframe{Conclusion}{
 
-\justify
+% We have proposed here a new insight into the generative simulation of urban morphologies at large scales, namely the scale of the district considering the layout of buildings. After computing morphological measures on a large sample of real urban areas, we showed the complementarity of different generators capturing various aspects of urban morphogenesis processes. Despite not implying generative agents (developers, inhabitants, companies) and thus staying close to procedural modeling, this work however paves the way towards a more systematic understanding of generative processes of urban form at this scale.
 
-$\rightarrow$
+\justify
+\vspace{-1cm}
+
+$\rightarrow$ New set of urban morphological measures at large scales.
 
 \medskip
 
-\textit{Code and results at } \url{https://github.com/openmole/spatialdata}
+$\rightarrow$ Simple generative models with complementary processes to reproduce existing European urban forms regarding morphological indicators.
 
+\medskip
+
+$\rightarrow$ Towards more elaborated models of urban morphogenesis.
+
+\bigskip
+\bigskip
+\bigskip
+
+\textbf{Code and results available at }\\
+\url{https://github.com/openmole/spatialdata}
+
+\bigskip
+
+\textbf{Download OpenMOLE at }\\
+\url{https://openmole.org}
  
 
 }
