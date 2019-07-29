@@ -344,7 +344,9 @@ Urban form indicators for building layouts:
 
 \sframe{Generators}{
 
-% we show here examples of generated urban forms
+% - we show here examples of generated urban forms
+% - these are parameter sets that can be more or less close to real urban configuration
+% - the random generator is a null model to control that results on morphological indicators are indeed significant
  
 \vspace{-0.3cm}
 \begin{center}
@@ -359,6 +361,10 @@ Urban form indicators for building layouts:
 }
 
 \sframe{Real configurations}{
+
+% - one of our important contribution is to confront models to a large set of real configurations
+% - european urban areas were randomly sampled (weighted by population)
+% - square areas were randomly sampled within these (72,000 reuqests on OpenStreetMap - requires to locally load OSM data into a pgsql server)
 
 \vspace{-0.3cm}
 \begin{center}
@@ -376,6 +382,10 @@ Urban form indicators for building layouts:
 
 \sframe{Classification of urban forms}{
 
+% - real configuration can be classified with unsupervised clustering
+% - can see here four classes ranging from large / small blocks, intermediate shapes, more compact configurations.
+% - we find that effective dimension is not very high (higher than at meso scale) - could not know before which indicators would be discriminant)
+
 \vspace{-0.3cm}
 \begin{center}
    \includegraphics[height=0.82\textheight]{figuresslides/spatialsens_osm_classification.png}
@@ -392,6 +402,11 @@ Urban form indicators for building layouts:
 
 
 \sframe{Model calibration tool}{
+
+% - we then use high performance computing to run generators a large number of times
+% - therefore, the OpenMOLE software was used
+% - workflow engine for computational experiments, embeds any model, provide transparent access to computation clusters and grids, and provide model exploration methods (sensitivity analysis, doe, GA, Diversity search)
+% - you can download it for free, see the doc etc here.
 
 Models explored and calibrated with the OpenMOLE software~\cite{reuillon2013openmole}
 
@@ -418,6 +433,9 @@ Models explored and calibrated with the OpenMOLE software~\cite{reuillon2013open
 
 \sframe{Calibrated forms}{
 
+% - these are results - 10,000 parameter points were randomly sampled for each geenrator - 100 stochatsic repetitions for each (I recall that each generator has three parameters)
+% - these are visual outputs of close real and simulated configurations. for some it seems "easy" to be visually close, for others more difficult. ad hoc modifications could be done to be closer, but as we will see the generators are already satisfying in terms of morphological proximity
+
 \begin{center}
 \includegraphics[width=\textwidth]{figuresslides/spatialsens_calib.png}
 \end{center}
@@ -430,6 +448,11 @@ Models explored and calibrated with the OpenMOLE software~\cite{reuillon2013open
 
 
 \sframe{Comparison of point clouds}{
+
+% - so this is the comparison of the real point cloud with simulated ones
+% - the random control is in purple and confirms that indicators capture relevant forms
+% - the blue corresponds to percolation, red blocks and green exp mixture
+% - a significant proportion of real points (dark blue) is covered - and all generators are necessary - a range is still out of reach, further work would consist in checking if intrinsic to generators or to the exploration of parameter space used
 
 \vspace{-0.2cm}
 \begin{center}\includegraphics[height=0.8\textheight]{figuresslides/spatialsens_points.png}
@@ -446,6 +469,8 @@ Models explored and calibrated with the OpenMOLE software~\cite{reuillon2013open
 
 
 \sframe{Calibration on classification centroids}{
+
+% when agregating on repetitions, we can get the distances for each centroid and each generator, and confirm the small minimal distances and their complementarity
 
 \includegraphics[width=\textwidth]{figuresslides/spatialsens_distanceclasses.png}
 
@@ -467,6 +492,10 @@ Models explored and calibrated with the OpenMOLE software~\cite{reuillon2013open
 %Furthermore, we tested the complementarity of generators only in a static way. Adaptive and dynamic generators, combining processes of different nature within the same model with an endogenous switching or combination, would be an important direction to better understand urban morphogenesis.
 %In the same context, the generators compared here had all the same number of parameters, but richer generators implying different numbers would require the use of information criterions to avoid overfitting, which, however, remains an unsolved issue for such generative simulation models \citep{piou2009proposing}.
 %Finally, as extensively reviewed above, the way to quantify urban form strongly depends on the scale considered. A more integrative understanding of it would require multi-scale approaches able to relate these different definition and measures within a single multi-scalar framework.
+
+% - several developments remain to be done, such as more elaborated methdos to calibraate and explore model behavior ; dynamical calibration is also a difficult issue, limited by the availibility of data ; also we had here a fair comparison of generators, but varying number of parameters is an other issue to tackle if it is the case.
+% - regarding applications, beginning to include processes regarding mobility, pollution, co2 emissions, and linking them to urban form, is an important direction towards sustainability. this imply multidimensional and multiscalar models, and finally the integqartion into operational approches - whats typical in urban science is the close link between research and practice.
+%
 
 \justify
 
@@ -510,6 +539,10 @@ $\rightarrow$ Hybridation with more operational approaches \cite{brasebin2017app
 \sframe{Conclusion}{
 
 % We have proposed here a new insight into the generative simulation of urban morphologies at large scales, namely the scale of the district considering the layout of buildings. After computing morphological measures on a large sample of real urban areas, we showed the complementarity of different generators capturing various aspects of urban morphogenesis processes. Despite not implying generative agents (developers, inhabitants, companies) and thus staying close to procedural modeling, this work however paves the way towards a more systematic understanding of generative processes of urban form at this scale.
+
+% - to sum up, we have introduced a newt set of urban morphology measures at large scales, and calibrated simple generative models on real configurations.
+% - this can be understood as a first step towards a more systematic understanding of urban morphogenesis.
+% - everything is openly available on the github repository, and you can check out openmole at this adress.
 
 \justify
 \vspace{-1cm}
